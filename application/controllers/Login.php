@@ -33,7 +33,7 @@ class Login extends CI_Controller {
 
             // Redirigir según el rol del usuario
             if ($user->rol === 'administrador') {
-                redirect('administrador');
+                redirect('Administrador');
             } elseif ($user->rol === 'medico') {
                 redirect('medico');
             } elseif ($user->rol === 'paciente') {
