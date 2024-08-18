@@ -21,13 +21,13 @@
         <!-- [ Main Content ] start -->
         <div class="row">
 
-<h1>LISTA DE USUARIOS</h1>
+<h1>LISTA DE MEDICOS</h1>
 
 
-<a href="<?php echo base_url()?>index.php/Administrador/agregar">
+<a href="<?php echo base_url()?>index.php/Medico/agregar">
 <br>
 <br>
-<button type="button" class="btn btn-primary"> Agregar Usuario</button>
+<button type="button" class="btn btn-primary"> Agregar Medico</button>
 </a>
             <!-- [ stiped-table ] start -->
             <div class="col-xl-12">
@@ -48,7 +48,9 @@
     <th>Telefono</th>
     <th>Direccion</th>
     <th>Correo Electronico</th>
-    <th>Rol</th>
+
+    <th>Especialidad</th>
+
     <th>Estado</th>
     <th>Fecha de Creacion</th>
     <th>Fecha de Actualizacion</th>

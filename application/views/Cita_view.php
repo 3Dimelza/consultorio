@@ -27,7 +27,7 @@
 <a href="<?php echo base_url()?>index.php/Administrador/agregar">
 <br>
 <br>
-<button type="button" class="btn btn-primary"> Agregar Usuario</button>
+<button type="button" class="btn btn-primary"> Agregar Cita</button>
 </a>
             <!-- [ stiped-table ] start -->
             <div class="col-xl-12">

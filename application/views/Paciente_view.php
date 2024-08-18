@@ -21,13 +21,13 @@
         <!-- [ Main Content ] start -->
         <div class="row">
 
-<h1>LISTA DE USUARIOS</h1>
+<h1>LISTA DE PACIENTES</h1>
 
 
 <a href="<?php echo base_url()?>index.php/Administrador/agregar">
 <br>
 <br>
-<button type="button" class="btn btn-primary"> Agregar Usuario</button>
+<button type="button" class="btn btn-primary"> Agregar Paciente</button>
 </a>
             <!-- [ stiped-table ] start -->
             <div class="col-xl-12">
@@ -41,23 +41,27 @@
                             <table class="table table-striped">
                                 
   <thead>
-    <th>No.</th>
+    <th>No.</th> <!--IdPaciente-->
     <th>Nombre</th>
     <th>Apellido</th>
     <th>Fecha de Nacimiento</th>
     <th>Telefono</th>
     <th>Direccion</th>
     <th>Correo Electronico</th>
-    <th>Rol</th>
+    
+    <th>Alergias</th>
+    <th>Tipo de Sangre</th>
+    <th>Historial Medico</th>
+
     <th>Estado</th>
     <th>Fecha de Creacion</th>
     <th>Fecha de Actualizacion</th>
     <th>Id Auditoria</th>
 	
-	<th>Modificar</th>
+    <th>Modificar</th>
 	<th>Eliminar</th>
-
   </thead>
+
   <tbody>
     <?php
     $contador=1;
@@ -72,17 +76,36 @@
 		<td> <?php echo $row->telefono;?> </td>
 		<td> <?php echo $row->direccion;?> </td>
 		<td> <?php echo $row->email;?> </td>
-		<td> <?php echo $row->rol;?> </td>
-		<td> <?php echo $row->estado;?> </td>
+		
+		<td> <?php echo $row->alergias;?> </td>
+        <td> <?php echo $row->tipoSangre;?> </td>
+        <td> <?php echo $row->historial_medico;?> </td>
+
+        <td> <?php echo $row->estado;?> </td>
 		<td> <?php echo $row->fechaCreacion;?> </td>
 		<td> <?php echo $row->ultimaActualizacion;?> </td>
 		<td> <?php echo $row->idUsuario_auditoria;?> </td>
 		<td>
-	<?php
-		echo form_open_multipart("Administrador/modificar");
+     
+  
+    <?php
+    //$contador=1;
+    //foreach($usuarios->result() as $row)
+    //{
+	//?>
+    
+    
+    <?php
+    //$contador++;
+    //} 
+	//?>
+    
+
+    <?php
+		echo form_open_multipart("Paciente/modificar");
 	?>
 	
-	<input	type="hidden" name="idUsuario" value="<?php echo $row->idUsuario;?>">
+	<input	type="hidden" name="idPaciente" value="<?php echo $row->idPaciente;?>">
 	<button type="submit" class="btn btn-success">Modificar</button>
 
 	
@@ -90,7 +113,7 @@
 		echo form_open_multipart("Administrador/eliminarbd");
 	?>
 	
-	<input	type="hidden" name="idUsuario" value="<?php echo $row->idUsuario;?>">
+	<input	type="hidden" name="idPaciente" value="<?php echo $row->idPaciente;?>">
 	<button type="submit" class="btn btn-danger">Eliminar</button>
 	
 	<?php
