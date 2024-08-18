@@ -79,21 +79,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <body>
 
 <div id="container">
-<h1>Modificar Estudiante</h1>
+<h1>Modificar Usuario</h1>
 <br>
 
 <?php
-    foreach($infoUsuario->result()as $row)
+    $contador=1;
+    foreach($infoUsuario->result() as $row)
     {
+	?>
 
-    }
-?>
-foreach
 <?php
 echo form_open_multipart("Administrador/modificarbd");
 ?>
 
 <br>
+
+<input type="hidden" class="form-control" name="idUsuario" placeholder="Escribe el nombre" value="<?php echo $row->idUsuario;?>">
+
 
 <!-- Campo para el nombre -->
 <input type="text" class="form-control" name="nombre" placeholder="Escribe el nombre" value="<?php echo $row->nombre;?>" required>
@@ -126,10 +128,11 @@ echo form_open_multipart("Administrador/modificarbd");
 
 <br>
 
-<button type="submit"  class="btn btn success">Modificar estudiante</button>
+<button type="submit"  class="btn btn success">Modificar Usuario</button>
 
 
 <?php 
 echo form_close();
+}
 ?>
 

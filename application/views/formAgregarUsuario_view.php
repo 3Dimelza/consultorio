@@ -1,128 +1,97 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-?><!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<title>Welcome to CodeIgniter</title>
+<!-- [ Main Content ] start -->
+<div class="pcoded-main-container">
+    <div class="pcoded-content">
+        <!-- [ breadcrumb ] start -->
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <div class="page-header-title">
+                            <h5 class="m-b-10">Dashboard Analytics</h5>
+                        </div>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html"><i class="feather icon-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="#!">Dashboard Analytics</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- [ breadcrumb ] end -->
+<!-- [ Main Content ] start -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Agregar Usuario</h5>
+            </div>
+            <div class="card-body">
+                <?php
+                // Inicia el formulario con multipart para permitir subida de archivos
+                echo form_open_multipart("Administrador/agregarbd");
+                ?>
 
-	<style type="text/css">
+                <!-- Campo para el nombre -->
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" class="form-control" name="nombre" placeholder="Escribe el nombre" required>
+                </div>
 
-	::selection { background-color: #E13300; color: white; }
-	::-moz-selection { background-color: #E13300; color: white; }
+                <!-- Campo para el apellido -->
+                <div class="form-group">
+                    <label for="apellido">Apellido</label>
+                    <input type="text" class="form-control" name="apellido" placeholder="Escribe el apellido" required>
+                </div>
 
-	body {
-		background-color: #fff;
-		margin: 40px;
-		font: 13px/20px normal Helvetica, Arial, sans-serif;
-		color: #4F5155;
-	}
+                <!-- Campo para la fecha de nacimiento -->
+                <div class="form-group">
+                    <label for="fechaNacimiento">Fecha de Nacimiento</label>
+                    <input type="date" class="form-control" name="fechaNacimiento" placeholder="Escribe la fecha de nacimiento" required>
+                </div>
 
-	a {
-		color: #003399;
-		background-color: transparent;
-		font-weight: normal;
-		text-decoration: none;
-	}
+                <!-- Campo para el teléfono -->
+                <div class="form-group">
+                    <label for="telefono">Teléfono</label>
+                    <input type="text" class="form-control" name="telefono" placeholder="Escribe el teléfono" required>
+                </div>
 
-	a:hover {
-		color: #97310e;
-	}
+                <!-- Campo para la dirección -->
+                <div class="form-group">
+                    <label for="direccion">Dirección</label>
+                    <input type="text" class="form-control" name="direccion" placeholder="Escribe la dirección" required>
+                </div>
 
-	h1 {
-		color: #444;
-		background-color: transparent;
-		border-bottom: 1px solid #D0D0D0;
-		font-size: 19px;
-		font-weight: normal;
-		margin: 0 0 14px 0;
-		padding: 14px 15px 10px 15px;
-	}
+                <!-- Campo para el correo electrónico -->
+                <div class="form-group">
+                    <label for="email">Correo Electrónico</label>
+                    <input type="email" class="form-control" name="email" placeholder="Escribe el correo electrónico" required>
+                </div>
 
-	code {
-		font-family: Consolas, Monaco, Courier New, Courier, monospace;
-		font-size: 12px;
-		background-color: #f9f9f9;
-		border: 1px solid #D0D0D0;
-		color: #002166;
-		display: block;
-		margin: 14px 0 14px 0;
-		padding: 12px 10px 12px 10px;
-	}
+                <!-- Campo para la contraseña -->
+                <div class="form-group">
+                    <label for="contrasenia">Contraseña</label>
+                    <input type="password" class="form-control" name="contrasenia" placeholder="Escribe la contraseña" required>
+                </div>
 
-	#body {
-		margin: 0 15px 0 15px;
-		min-height: 96px;
-	}
+                <!-- Campo para el rol utilizando un combo box -->
+                <div class="form-group">
+                    <label for="rol">Rol</label>
+                    <select class="form-control" name="rol" required>
+                        <option value="Administrador">Administrador</option>
+                        <option value="Paciente">Paciente</option>
+                        <option value="Medico">Medico</option>
+                    </select>
+                </div>
 
-	p {
-		margin: 0 0 10px;
-		padding:0;
-	}
+                <!-- Botón de envío -->
+                <button type="submit" class="btn btn-success">Agregar Usuario</button>
 
-	p.footer {
-		text-align: right;
-		font-size: 11px;
-		border-top: 1px solid #D0D0D0;
-		line-height: 32px;
-		padding: 0 10px 0 10px;
-		margin: 20px 0 0 0;
-	}
-
-	#container {
-		margin: 10px;
-		border: 1px solid #D0D0D0;
-		box-shadow: 0 0 8px #D0D0D0;
-	}
-	</style>
-</head>
-<body>
-
-<div id="container">
-<h1>Agregar Estudiante</h1>
-<br>
-<!-- <form action="<?php echo base_url();?>index.php/Administrador/agregarbd"> -->
-<?php
-echo form_open_multipart("Administrador/agregarbd");
-?>
-
-<br>
-
-<!-- Campo para el nombre -->
-<input type="text" class="form-control" name="nombre" placeholder="Escribe el nombre">
-
-<!-- Campo para el apellido -->
-<input type="text" class="form-control" name="apellido" placeholder="Escribe el apellido">
-
-<!-- Campo para la fecha de nacimiento -->
-<input type="date" class="form-control" name="fechaNacimiento" placeholder="Escribe la fecha de nacimiento">
-
-<!-- Campo para el teléfono -->
-<input type="text" class="form-control" name="telefono" placeholder="Escribe el teléfono">
-
-<!-- Campo para la dirección -->
-<input type="text" class="form-control" name="direccion" placeholder="Escribe la dirección">
-
-<!-- Campo para el correo electrónico -->
-<input type="email" class="form-control" name="email" placeholder="Escribe el correo electrónico">
-
-<!-- Campo para la contraseña -->
-<input type="password" class="form-control" name="contrasenia" placeholder="Escribe la contraseña">
-
-<!-- Campo para el rol utilizando un combo box -->
-<select class="form-control" name="rol">
-    <option value="Administrador">Administrador</option>
-    <option value="Paciente">Paciente</option>
-    <option value="Medico">Medico</option>
-</select>
-
-
-<br>
-
-<button type="submit"  class="btn btn success">Agregar estudiante</button>
-
-
-<?php 
-echo form_close();
-?>
-
+                <?php 
+                // Cierra el formulario
+                echo form_close();
+                ?>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- [ Main Content ] end -->

@@ -1,6 +1,14 @@
+<!-- Required Js -->
+<script src="<?php echo base_url(); ?>Template/dist/assets/js/vendor-all.min.js"></script>
+    <script src="<?php echo base_url(); ?>Template/dist/assets/js/plugins/bootstrap.min.js"></script>
+    <script src="<?php echo base_url(); ?>Template/dist/assets/js/pcoded.min.js"></script>
 
-<footer class="footer mt-auto py-3 bg-light">
-  <div class="container">
-    <span class="text-muted">Place sticky footer content here.</span>
-  </div>
-</footer>
+<!-- Apex Chart -->
+<script src="<?php echo base_url(); ?>Template/dist/assets/js/plugins/apexcharts.min.js"></script>
+
+
+<!-- custom-chart js -->
+<script src="<?php echo base_url(); ?>Template/dist/assets/js/pages/dashboard-main.js"></script>
+</body>
+
+</html>

@@ -1,91 +1,45 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-?><!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<title>Welcome to CodeIgniter</title>
+<!-- [ Main Content ] start -->
+<div class="pcoded-main-container">
+    <div class="pcoded-content">
+        <!-- [ breadcrumb ] start -->
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <div class="page-header-title">
+                            <h5 class="m-b-10">Dashboard Analytics</h5>
+                        </div>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html"><i class="feather icon-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="#!">Dashboard Analytics</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- [ breadcrumb ] end -->
+        <!-- [ Main Content ] start -->
+        <div class="row">
 
-	<style type="text/css">
-
-	::selection { background-color: #E13300; color: white; }
-	::-moz-selection { background-color: #E13300; color: white; }
-
-	body {
-		background-color: #fff;
-		margin: 40px;
-		font: 13px/20px normal Helvetica, Arial, sans-serif;
-		color: #4F5155;
-	}
-
-	a {
-		color: #003399;
-		background-color: transparent;
-		font-weight: normal;
-		text-decoration: none;
-	}
-
-	a:hover {
-		color: #97310e;
-	}
-
-	h1 {
-		color: #444;
-		background-color: transparent;
-		border-bottom: 1px solid #D0D0D0;
-		font-size: 19px;
-		font-weight: normal;
-		margin: 0 0 14px 0;
-		padding: 14px 15px 10px 15px;
-	}
-
-	code {
-		font-family: Consolas, Monaco, Courier New, Courier, monospace;
-		font-size: 12px;
-		background-color: #f9f9f9;
-		border: 1px solid #D0D0D0;
-		color: #002166;
-		display: block;
-		margin: 14px 0 14px 0;
-		padding: 12px 10px 12px 10px;
-	}
-
-	#body {
-		margin: 0 15px 0 15px;
-		min-height: 96px;
-	}
-
-	p {
-		margin: 0 0 10px;
-		padding:0;
-	}
-
-	p.footer {
-		text-align: right;
-		font-size: 11px;
-		border-top: 1px solid #D0D0D0;
-		line-height: 32px;
-		padding: 0 10px 0 10px;
-		margin: 20px 0 0 0;
-	}
-
-	#container {
-		margin: 10px;
-		border: 1px solid #D0D0D0;
-		box-shadow: 0 0 8px #D0D0D0;
-	}
-	</style>
-</head>
-<body>
-
-<div id="container">
 <h1>LISTA DE USUARIOS</h1>
-<br>
-<a href="<?php echo base_url()?>index.php/Administrador/agregar">
-<button type="button" class="btn btn-primary"> Agregar Estudiante</button>
-</a>
 
-<table class="table">
+
+<a href="<?php echo base_url()?>index.php/Administrador/agregar">
+<br>
+<br>
+<button type="button" class="btn btn-primary"> Agregar Usuario</button>
+</a>
+            <!-- [ stiped-table ] start -->
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Striped Table</h5>
+                        <span class="d-block m-t-5">use class <code>table-striped</code> inside table element</span>
+                    </div>
+                    <div class="card-body table-border-style">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                
   <thead>
     <th>No.</th>
     <th>Nombre</th>
@@ -131,14 +85,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<button type="submit" class="btn btn-success">Modificar</button>
 
 	
-	
 	<?php
 		echo form_open_multipart("Administrador/eliminarbd");
 	?>
 	
 	<input	type="hidden" name="idUsuario" value="<?php echo $row->idUsuario;?>">
 	<button type="submit" class="btn btn-danger">Eliminar</button>
-
+	
+	<?php
+    echo form_close(); // Cerrar el primer formulario
+    ?>
+	
 	<?php 
 	echo form_close();
 	?>
@@ -150,9 +107,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   } 
 	?>
   </tbody>
- </table>
  
-</div>
 
-</body>
-</html>
+ 
+  </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- [ stiped-table ] end -->    
+
+ 
+<!-- Latest Customers end -->
+        </div>
+        <!-- [ Main Content ] end -->
+    </div>
+</div>

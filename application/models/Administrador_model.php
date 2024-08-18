@@ -30,6 +30,13 @@ class Administrador_model extends CI_Model {
 
     }
 
+    public function modificarUsuario($idUsuario,$data)
+    {
+        $this->db->where('idUsuario',$idUsuario);
+        $this->db->update('usuarios',$data);
+
+    }
+
 
     }
 ?>
