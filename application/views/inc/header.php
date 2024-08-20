@@ -6,8 +6,8 @@
             <a class="mobile-menu" id="mobile-collapse" href="#!"><span></span></a>
             <a href="#!" class="b-brand">
                 <!-- ========   change your logo hear   ============ -->
-                <img src="<?php echo base_url(); ?>Template/dist/assets/images/logo.png" alt="" class="logo">
-                <img src="<?php echo base_url(); ?>Template/dist/assets/images/logo-icon.png" alt="" class="logo-thumb">
+                <img src="<?php echo base_url(); ?>Template/dist/assets/images/logoNeuro.png" alt="" class="logo">
+                <!-- <img src="<?php echo base_url(); ?>Template/dist/assets/images/logo-icon.png" alt="" class="logo-thumb"> -->
             </a>
             <a href="#!" class="mob-toggler">
                 <i class="feather icon-more-vertical"></i>

@@ -20681,7 +20681,7 @@ pre[class*=language-]:before {
     height: calc(100% - 56px);
     margin-top: 56px;
     top: 0;
-    background: #2c3e50;
+    background: #3D49FF;
     color: #d0dcda;
 }
 
@@ -20750,7 +20750,7 @@ pre[class*=language-]:before {
 }
 
 .pcoded-navbar .main-menu-header {
-    background: #3e5871;
+    background: #35BAFF;
     position: relative;
     padding: 20px;
     text-align: left;
@@ -23751,7 +23751,7 @@ pre[class*=language-]:before {
 }
 
 .pcoded-header.header-dark {
-    background: #2c3e50;
+    background: #3D49FF;
     color: rgba(255, 255, 255, 0.8);
 }
 
