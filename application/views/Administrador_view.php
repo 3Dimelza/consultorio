@@ -7,11 +7,11 @@
                 <div class="row align-items-center">
                     <div class="col-md-12">
                         <div class="page-header-title">
-                            <h5 class="m-b-10">Dashboard Analytics</h5>
+                            <h5 class="m-b-10">Inicio</h5>
                         </div>
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="index.html"><i class="feather icon-home"></i></a></li>
-                            <li class="breadcrumb-item"><a href="#!">Dashboard Analytics</a></li>
+                            <li class="breadcrumb-item"><a href="#!">Tablero</a></li>
                         </ul>
                     </div>
                 </div>
@@ -20,6 +20,7 @@
         <!-- [ breadcrumb ] end -->
         <!-- [ Main Content ] start -->
         <div class="row">
+
 
 <h1>LISTA DE USUARIOS</h1>
 
@@ -33,8 +34,7 @@
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5>Striped Table</h5>
-                        <span class="d-block m-t-5">use class <code>table-striped</code> inside table element</span>
+
                     </div>
                     <div class="card-body table-border-style">
                         <div class="table-responsive">
@@ -54,8 +54,7 @@
     <th>Fecha de Actualizacion</th>
     <th>Id Auditoria</th>
 	
-	<th>Modificar</th>
-	<th>Eliminar</th>
+	<th>Acciones</th>
 
   </thead>
   <tbody>
@@ -77,30 +76,19 @@
 		<td> <?php echo $row->fechaCreacion;?> </td>
 		<td> <?php echo $row->ultimaActualizacion;?> </td>
 		<td> <?php echo $row->idUsuario_auditoria;?> </td>
-		<td>
-	<?php
-		echo form_open_multipart("Administrador/modificar");
-	?>
-	
-	<input	type="hidden" name="idUsuario" value="<?php echo $row->idUsuario;?>">
-	<button type="submit" class="btn btn-success">Modificar</button>
-
-	
-	<?php
-		echo form_open_multipart("Administrador/eliminarbd");
-	?>
-	
-	<input	type="hidden" name="idUsuario" value="<?php echo $row->idUsuario;?>">
-	<button type="submit" class="btn btn-danger">Eliminar</button>
-	
-	<?php
-    echo form_close(); // Cerrar el primer formulario
-    ?>
-	
-	<?php 
-	echo form_close();
-	?>
-		</td>
+        <td class="text-center">
+                      <div class="btn-group">
+                        <?php echo form_open_multipart("Administrador/modificar"); ?>
+                          <input type="hidden" name="idUsuario" value="<?php echo $row->idUsuario; ?>">
+                          <button type="submit" class="btn btn-morado"><i class="fas fa-edit"></i></button>
+                        <?php echo form_close(); ?>
+                                
+                        <?php echo form_open_multipart("Administrador/eliminarbd"); ?>
+                          <input type="hidden" name="idUsuario" value="<?php echo $row->idUsuario; ?>">
+                          <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                        <?php echo form_close(); ?>
+                      </div>
+        </td>
 	</tr>
 
     <?php

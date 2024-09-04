@@ -31,8 +31,8 @@
                         </a>
                         <div class="dropdown-menu profile-notification ">
                             <ul class="pro-body">
-                                <li><a href="user-profile.html" class="dropdown-item"><i class="fas fa-circle"></i> Profile</a></li>
-                                <li><a href="email_inbox.html" class="dropdown-item"><i class="fas fa-circle"></i> My Messages</a></li>
+                                <li><a href="user-profile.html" class="dropdown-item"><i class="fas fa-circle"></i> Perfil</a></li>
+                                <li><a href="email_inbox.html" class="dropdown-item"><i class="fas fa-circle"></i> Mensajes</a></li>
                                 <li><a href="auth-signin.html" class="dropdown-item"><i class="fas fa-circle"></i> Lock Screen</a></li>
                             </ul>
                         </div>
@@ -101,7 +101,7 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right notification">
                             <div class="noti-head">
-                                <h6 class="d-inline-block m-b-0">Notifications</h6>
+                                <h6 class="d-inline-block m-b-0">Notificaciones</h6>
                                 <div class="float-right">
                                     <a href="#!" class="m-r-10">mark as read</a>
                                     <a href="#!">clear all</a>
@@ -171,8 +171,8 @@
                                 </a>
                             </div>
                             <ul class="pro-body">
-                                <li><a href="user-profile.html" class="dropdown-item"><i class="feather icon-user"></i> Profile</a></li>
-                                <li><a href="email_inbox.html" class="dropdown-item"><i class="feather icon-mail"></i> My Messages</a></li>
+                                <li><a href="user-profile.html" class="dropdown-item"><i class="feather icon-user"></i> Perfile</a></li>
+                                <li><a href="email_inbox.html" class="dropdown-item"><i class="feather icon-mail"></i>Mensajes</a></li>
                                 <li><a href="auth-signin.html" class="dropdown-item"><i class="feather icon-lock"></i> Lock Screen</a></li>
                             </ul>
                         </div>

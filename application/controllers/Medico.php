@@ -1,16 +1,16 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Administrador extends CI_Controller {
+class Medico extends CI_Controller {
 	
 	public function index()
 	{
-        $lista=$this->Administrador_model->listaUsuarios();
-		$data['usuarios']=$lista;
+        $lista=$this->Medico_model->listaMedicos();
+		$data['medicos']=$lista;
         $this->load->view('inc/head');
         $this->load->view('inc/header');
         //$this->load->view('inc/menu');
-        $this->load->view('Administrador_view',$data);
+        $this->load->view('Medico_view',$data);
         $this->load->view('inc/footer');
         //$this->load->view('inc/pie');
 
@@ -22,7 +22,7 @@ class Administrador extends CI_Controller {
         $this->load->view('inc/head');
         $this->load->view('inc/header');
         //$this->load->view('inc/menu');
-        $this->load->view('formAgregarUsuario_view');
+        $this->load->view('formAgregarMedico_view');
         $this->load->view('inc/footer');
         //$this->load->view('inc/pie');
     }
@@ -39,31 +39,31 @@ class Administrador extends CI_Controller {
         $data['contrasenia'] = $_POST['contrasenia'];
         $data['rol'] = $_POST['rol'];
 
-        $this->Administrador_model->agregarUsuario($data);
+        $this->Medico_model->agregarMedico($data);
 
-        redirect('administrador/index','refresh');//REDIRECCIONAR A LA LISTA
+        redirect('medico/index','refresh');//REDIRECCIONAR A LA LISTA
     }
 
     public function eliminarbd()
     {
-        $idUsuario=$_POST['idUsuario'];
-        $this->Administrador_model->eliminarUsuario($idUsuario);
+        $idMedico=$_POST['idMedico'];
+        $this->Medico_model->eliminarMedico($idMedico);
         
-        redirect('administrador/index','refresh');//REDIRECCIONAR A LA LISTA
+        redirect('medico/index','refresh');//REDIRECCIONAR A LA LISTA
 
     }
 
     public function modificar()
     {
-        $idUsuario=$_POST['idUsuario'];
-        //echo $idUsuario;
-        $idUsuario=$_POST['idUsuario'];
-        $data['infoUsuario']=$this->Administrador_model->recuperarUsuario($idUsuario);
+        $idMedico=$_POST['idMedico'];
+        //echo $idMedico;
+        $idMedico=$_POST['idMedico'];
+        $data['infoMedico']=$this->Medico_model->recuperarMedico($idMedico);
         $this->load->view('inc/head');
         $this->load->view('inc/header');
         
         //$this->load->view('inc/menu');
-        $this->load->view('formModificarUsuario_view',$data);
+        $this->load->view('formModificarMedico_view',$data);
         $this->load->view('inc/footer');
         //$this->load->view('inc/pie');
     
@@ -71,8 +71,8 @@ class Administrador extends CI_Controller {
 
     public function modificarbd()
     {
-        $idUsuario=$_POST['idUsuario'];
-        $data['nombre']=$_POST['idUsuario'];
+        $idMedico=$_POST['idMedico'];
+        $data['nombre']=$_POST['idMedico'];
         
 
         $data['nombre'] = $_POST['nombre'];
@@ -84,13 +84,13 @@ class Administrador extends CI_Controller {
         $data['contrasenia'] = $_POST['contrasenia'];
         $data['rol'] = $_POST['rol'];
 
-        $this->Administrador_model->modificarUsuario($idUsuario,$data);
-        redirect('administrador/index','refresh');//REDIRECCIONAR A LA LISTA
+        $this->Medico_model->modificarMedico($idMedico,$data);
+        redirect('medico/index','refresh');//REDIRECCIONAR A LA LISTA
         
     }
 
     // public function pruebabd(){
-    //     $query=$this->db->get('usuarios');
+    //     $query=$this->db->get('medicos');
     //     $execonsulta=$query->result();
     //     print_r($execonsulta);
     // }
@@ -98,8 +98,8 @@ class Administrador extends CI_Controller {
     // public function personas()
     // {
 
-    // $lista=$this->Administrador_model->listaUsuarios();
-    // $data['usuarios']=$lista;
-    // $this->load->view('Administrador_view',$data);
+    // $lista=$this->Medico_model->listaMedicos();
+    // $data['medicos']=$lista;
+    // $this->load->view('Medico_view',$data);
     // }
 }
