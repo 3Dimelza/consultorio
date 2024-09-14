@@ -38,7 +38,7 @@ try {
     echo 'Correo enviado';
 } catch (Exception $e) {
     echo 'Mensaje ' . $mail->ErrorInfo;
-}
+}  
 
 /*
 try {

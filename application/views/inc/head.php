@@ -59,16 +59,59 @@
 					<li class="nav-item pcoded-menu-caption">
 						<label>Navegacion</label>
 					</li>
+					
 					<li class="nav-item">
-					    <a href="index.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Usuarios</span></a>
+					    <a href="index.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Inicio</span></a>
 					</li>
-					<li class="nav-item pcoded-hasmenu">
-					    <a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-layout"></i></span><span class="pcoded-mtext">Paginas D</span></a>
-					    <ul class="pcoded-submenu">
-					        <li><a href="<?php echo base_url(); ?>index.php/Paciente/index" target="_blank">Paciente</a></li>
-					        <li><a href="<?php echo base_url(); ?>index.php/Medico/index" target="_blank">Medico</a></li>
-					    </ul>
+					  
+
+					<li class="nav-item">
+						<a href="<?php echo base_url(); ?>index.php/Administrador/index" class="nav-link " target="_blank">
+							<span class="pcoded-micon"><i class="feather icon-layout"></i></span>
+							<span class="pcoded-mtext">Usuarios</span>
+						</a>
 					</li>
+
+					<li class="nav-item">
+						<a href="<?php echo base_url(); ?>index.php/Paciente/index" class="nav-link " target="_blank">
+							<span class="pcoded-micon"><i class="feather icon-layout"></i></span>
+							<span class="pcoded-mtext">Paciente</span>
+						</a>
+					</li>
+
+					<li class="nav-item">
+						<a href="<?php echo base_url(); ?>index.php/Medico/index" class="nav-link " target="_blank">
+							<span class="pcoded-micon"><i class="feather icon-layout"></i></span>
+							<span class="pcoded-mtext">Medico</span>
+						</a>
+					</li>
+
+					<li class="nav-item">
+						<a href="<?php echo base_url(); ?>index.php/Cita/index" class="nav-link " target="_blank">
+							<span class="pcoded-micon"><i class="feather icon-layout"></i></span>
+							<span class="pcoded-mtext">Citas</span>
+						</a>
+					</li>
+
+					<li class="nav-item">
+						<a href="<?php echo base_url(); ?>index.php/Citas/index" class="nav-link " target="_blank">
+							<span class="pcoded-micon"><i class="feather icon-layout"></i></span>
+							<span class="pcoded-mtext">Reportes</span>
+						</a>
+					</li>
+
+					<li class="nav-item">
+						<a href="index.html" class="nav-link ">
+							<span class="pcoded-micon"><i class="feather icon-layout"></i></span>
+							<span class="pcoded-mtext">Cobros</span>
+						</a>
+					</li>
+
+		
+
+
+
+
 					<li class="nav-item pcoded-menu-caption">
 						<label>UI Element</label>
 					</li>

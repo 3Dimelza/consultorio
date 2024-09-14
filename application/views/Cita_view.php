@@ -1,126 +1,65 @@
-<!-- [ Main Content ] start -->
 <div class="pcoded-main-container">
     <div class="pcoded-content">
-        <!-- [ breadcrumb ] start -->
-        <div class="page-header">
-            <div class="page-block">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <div class="page-header-title">
-                            <h5 class="m-b-10">Dashboard Analytics</h5>
-                        </div>
-                        <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index.html"><i class="feather icon-home"></i></a></li>
-                            <li class="breadcrumb-item"><a href="#!">Dashboard Analytics</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- [ breadcrumb ] end -->
-        <!-- [ Main Content ] start -->
+        <!-- ... (código anterior) ... -->
         <div class="row">
-
-<h1>LISTA DE USUARIOS</h1>
-
-
-<a href="<?php echo base_url()?>index.php/Administrador/agregar">
-<br>
-<br>
-<button type="button" class="btn btn-primary"> Agregar Cita</button>
-</a>
-            <!-- [ stiped-table ] start -->
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5>Striped Table</h5>
-                        <span class="d-block m-t-5">use class <code>table-striped</code> inside table element</span>
+                        <h5>Lista de Citas</h5>
+                        <a href="<?php echo base_url('Cita/agregar'); ?>" class="btn btn-primary float-right">Agregar Cita</a>
                     </div>
                     <div class="card-body table-border-style">
                         <div class="table-responsive">
                             <table class="table table-striped">
-                                
-  <thead>
-    <th>No.</th>
-    <th>Nombre</th>
-    <th>Apellido</th>
-    <th>Fecha de Nacimiento</th>
-    <th>Telefono</th>
-    <th>Direccion</th>
-    <th>Correo Electronico</th>
-    <th>Rol</th>
-    <th>Estado</th>
-    <th>Fecha de Creacion</th>
-    <th>Fecha de Actualizacion</th>
-    <th>Id Auditoria</th>
-	
-	<th>Modificar</th>
-	<th>Eliminar</th>
-
-  </thead>
-  <tbody>
-    <?php
-    $contador=1;
-    foreach($usuarios->result() as $row)
-    {
-	?>
-		<tr>
-		<td><?php echo $contador?></td>
-		<td><?php echo $row->nombre; ?></dh>
-		<td> <?php echo $row->apellido;?> </td>
-		<td> <?php echo $row->fechaNacimiento;?> </td>
-		<td> <?php echo $row->telefono;?> </td>
-		<td> <?php echo $row->direccion;?> </td>
-		<td> <?php echo $row->email;?> </td>
-		<td> <?php echo $row->rol;?> </td>
-		<td> <?php echo $row->estado;?> </td>
-		<td> <?php echo $row->fechaCreacion;?> </td>
-		<td> <?php echo $row->ultimaActualizacion;?> </td>
-		<td> <?php echo $row->idUsuario_auditoria;?> </td>
-		<td>
-	<?php
-		echo form_open_multipart("Administrador/modificar");
-	?>
-	
-	<input	type="hidden" name="idUsuario" value="<?php echo $row->idUsuario;?>">
-	<button type="submit" class="btn btn-success">Modificar</button>
-
-	
-	<?php
-		echo form_open_multipart("Administrador/eliminarbd");
-	?>
-	
-	<input	type="hidden" name="idUsuario" value="<?php echo $row->idUsuario;?>">
-	<button type="submit" class="btn btn-danger">Eliminar</button>
-	
-	<?php
-    echo form_close(); // Cerrar el primer formulario
-    ?>
-	
-	<?php 
-	echo form_close();
-	?>
-		</td>
-	</tr>
-
-    <?php
-    $contador++;
-  } 
-	?>
-  </tbody>
- 
-
- 
-  </table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Fecha</th>
+                                        <th>Paciente</th>
+                                        <th>Médico</th>
+                                        <th>Tipo de Atención</th>
+                                        <th>Motivo de Consulta</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($citas as $cita): ?>
+                                        <tr data-toggle="collapse" data-target="#detalle-<?php echo $cita->idCita; ?>" class="accordion-toggle">
+                                            <td><?php echo $cita->idCita; ?></td>
+                                            <td><?php echo $cita->fecha; ?></td>
+                                            <td><?php echo $cita->nombrePaciente; ?></td>
+                                            <td><?php echo $cita->nombreMedico; ?></td>
+                                            <td><?php echo $cita->nombreTipoAtencion; ?></td>
+                                            <td><?php echo $cita->motivoConsulta; ?></td>
+                                            <td>
+                                                <a href="<?php echo base_url('Cita/modificar/'.$cita->idCita); ?>" class="btn btn-sm btn-info">Modificar</a>
+                                                <a href="<?php echo base_url('Cita/eliminar/'.$cita->idCita); ?>" class="btn btn-sm btn-danger" onclick="return confirm('¿Está seguro de eliminar esta cita?')">Eliminar</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="7" class="hiddenRow">
+                                                <div class="accordian-body collapse" id="detalle-<?php echo $cita->idCita; ?>">
+                                                    <h6>Detalles de la Cita</h6>
+                                                    <p><strong>Cita Cabeza:</strong></p>
+                                                    <ul>
+                                                        <li>Estado: <?php echo $cita->citaCabeza->estado; ?></li>
+                                                        <!-- Agregar más detalles de cita_cabeza aquí -->
+                                                    </ul>
+                                                    <p><strong>Cita Detalle:</strong></p>
+                                                    <ul>
+                                                        <li>Costo de Atención: <?php echo $cita->citaDetalle->costoAtencion; ?></li>
+                                                        <!-- Agregar más detalles de cita_detalle aquí -->
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- [ stiped-table ] end -->    
-
- 
-<!-- Latest Customers end -->
         </div>
-        <!-- [ Main Content ] end -->
     </div>
 </div>

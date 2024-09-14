@@ -2,104 +2,83 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Paciente extends CI_Controller {
-	
-	public function index()
-	{
-        $lista=$this->Paciente_model->listaPacientes();
-		$data['pacientes']=$lista;
+    
+    public function index()
+    {
+        $lista = $this->Paciente_model->listaPacientes();
+        $data['pacientes'] = $lista;
         $this->load->view('inc/head');
         $this->load->view('inc/header');
-        //$this->load->view('inc/menu');
-        $this->load->view('Paciente_view',$data);
+        $this->load->view('Paciente_view', $data);
         $this->load->view('inc/footer');
-        //$this->load->view('inc/pie');
-
-	}
+    }
 
     public function agregar()
     {
-
         $this->load->view('inc/head');
         $this->load->view('inc/header');
-        //$this->load->view('inc/menu');
         $this->load->view('formAgregarPaciente_view');
         $this->load->view('inc/footer');
-        //$this->load->view('inc/pie');
     }
-
 
     public function agregarbd()
     {
-        $data['nombre'] = $_POST['nombre'];
-        $data['apellido'] = $_POST['apellido'];
-        $data['fechaNacimiento'] = $_POST['fechaNacimiento'];
-        $data['telefono'] = $_POST['telefono'];
-        $data['direccion'] = $_POST['direccion'];
-        $data['email'] = $_POST['email'];
-        $data['contrasenia'] = $_POST['contrasenia'];
-        $data['rol'] = $_POST['rol'];
+        $data['nombre'] = $this->input->post('nombre');
+        $data['apellido'] = $this->input->post('apellido');
+        $data['fechaNacimiento'] = $this->input->post('fechaNacimiento');
+        $data['telefono'] = $this->input->post('telefono');
+        $data['direccion'] = $this->input->post('direccion');
+        $data['email'] = $this->input->post('email');
+        $data['contrasenia'] = $this->input->post('contrasenia');
+        $data['rol'] = 'Paciente';
 
-        $this->Paciente_model->agregarPaciente($data);
+        $idUsuario = $this->Paciente_model->agregarUsuario($data);
 
-        redirect('Paciente/index','refresh');//REDIRECCIONAR A LA LISTA
+        $dataPaciente['idPaciente'] = $idUsuario;
+        $dataPaciente['alergias'] = $this->input->post('alergias');
+        $dataPaciente['tipoSangre'] = $this->input->post('tipoSangre');
+        $dataPaciente['historial_medico'] = $this->input->post('historial_medico');
+
+        $this->Paciente_model->agregarPaciente($dataPaciente);
+
+        redirect('paciente/index', 'refresh');
     }
 
     public function eliminarbd()
     {
-        $idPaciente=$_POST['idPaciente'];
+        $idPaciente = $this->input->post('idPaciente');
         $this->Paciente_model->eliminarPaciente($idPaciente);
-        
-        redirect('Paciente/index','refresh');//REDIRECCIONAR A LA LISTA
-
+        redirect('paciente/index', 'refresh');
     }
 
     public function modificar()
     {
-        $idPaciente=$_POST['idPaciente'];
-        //echo $idPaciente;
-        $idPaciente=$_POST['idPaciente'];
-        $data['infoPaciente']=$this->Paciente_model->recuperarPaciente($idPaciente);
+        $idPaciente = $this->input->post('idPaciente');
+        $data['infoPaciente'] = $this->Paciente_model->recuperarPaciente($idPaciente);
         $this->load->view('inc/head');
         $this->load->view('inc/header');
-        
-        //$this->load->view('inc/menu');
-        $this->load->view('formModificarPaciente_view',$data);
+        $this->load->view('formModificarPaciente_view', $data);
         $this->load->view('inc/footer');
-        //$this->load->view('inc/pie');
-    
     }
 
     public function modificarbd()
     {
-        $idPaciente=$_POST['idPaciente'];
-        $data['nombre']=$_POST['idPaciente'];
-        
+        $idPaciente = $this->input->post('idPaciente');
+        $data['nombre'] = $this->input->post('nombre');
+        $data['apellido'] = $this->input->post('apellido');
+        $data['fechaNacimiento'] = $this->input->post('fechaNacimiento');
+        $data['telefono'] = $this->input->post('telefono');
+        $data['direccion'] = $this->input->post('direccion');
+        $data['email'] = $this->input->post('email');
+        $data['contrasenia'] = $this->input->post('contrasenia');
 
-        $data['nombre'] = $_POST['nombre'];
-        $data['apellido'] = $_POST['apellido'];
-        $data['fechaNacimiento'] = $_POST['fechaNacimiento'];
-        $data['telefono'] = $_POST['telefono'];
-        $data['direccion'] = $_POST['direccion'];
-        $data['email'] = $_POST['email'];
-        $data['contrasenia'] = $_POST['contrasenia'];
-        $data['rol'] = $_POST['rol'];
+        $dataPaciente['alergias'] = $this->input->post('alergias');
+        $dataPaciente['tipoSangre'] = $this->input->post('tipoSangre');
+        $dataPaciente['historial_medico'] = $this->input->post('historial_medico');
 
-        $this->Paciente_model->modificarPaciente($idPaciente,$data);
-        redirect('Paciente/index','refresh');//REDIRECCIONAR A LA LISTA
-        
+        $this->Paciente_model->modificarUsuario($idPaciente, $data);
+        $this->Paciente_model->modificarPaciente($idPaciente, $dataPaciente);
+
+        redirect('paciente/index', 'refresh');
     }
-
-    // public function pruebabd(){
-    //     $query=$this->db->get('usuarios');
-    //     $execonsulta=$query->result();
-    //     print_r($execonsulta);
-    // }
-
-    // public function personas()
-    // {
-
-    // $lista=$this->Administrador_model->listaUsuarios();
-    // $data['usuarios']=$lista;
-    // $this->load->view('Administrador_view',$data);
-    // }
 }

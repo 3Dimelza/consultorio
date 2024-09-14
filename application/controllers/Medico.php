@@ -2,104 +2,79 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Medico extends CI_Controller {
-	
-	public function index()
-	{
-        $lista=$this->Medico_model->listaMedicos();
-		$data['medicos']=$lista;
+    
+    public function index()
+    {
+        $lista = $this->Medico_model->listaMedicos();
+        $data['medicos'] = $lista;
         $this->load->view('inc/head');
         $this->load->view('inc/header');
-        //$this->load->view('inc/menu');
-        $this->load->view('Medico_view',$data);
+        $this->load->view('Medico_view', $data);
         $this->load->view('inc/footer');
-        //$this->load->view('inc/pie');
-
-	}
+    }
 
     public function agregar()
     {
-
         $this->load->view('inc/head');
         $this->load->view('inc/header');
-        //$this->load->view('inc/menu');
         $this->load->view('formAgregarMedico_view');
         $this->load->view('inc/footer');
-        //$this->load->view('inc/pie');
     }
-
 
     public function agregarbd()
     {
-        $data['nombre'] = $_POST['nombre'];
-        $data['apellido'] = $_POST['apellido'];
-        $data['fechaNacimiento'] = $_POST['fechaNacimiento'];
-        $data['telefono'] = $_POST['telefono'];
-        $data['direccion'] = $_POST['direccion'];
-        $data['email'] = $_POST['email'];
-        $data['contrasenia'] = $_POST['contrasenia'];
-        $data['rol'] = $_POST['rol'];
+        $data['nombre'] = $this->input->post('nombre');
+        $data['apellido'] = $this->input->post('apellido');
+        $data['fechaNacimiento'] = $this->input->post('fechaNacimiento');
+        $data['telefono'] = $this->input->post('telefono');
+        $data['direccion'] = $this->input->post('direccion');
+        $data['email'] = $this->input->post('email');
+        $data['contrasenia'] = $this->input->post('contrasenia');
+        $data['rol'] = 'Medico';
 
-        $this->Medico_model->agregarMedico($data);
+        $idUsuario = $this->Medico_model->agregarUsuario($data);
 
-        redirect('medico/index','refresh');//REDIRECCIONAR A LA LISTA
+        $dataMedico['idMedico'] = $idUsuario;
+        $dataMedico['especialidad'] = $this->input->post('especialidad');
+
+        $this->Medico_model->agregarMedico($dataMedico);
+
+        redirect('medico/index', 'refresh');
     }
 
     public function eliminarbd()
     {
-        $idMedico=$_POST['idMedico'];
+        $idMedico = $this->input->post('idMedico');
         $this->Medico_model->eliminarMedico($idMedico);
-        
-        redirect('medico/index','refresh');//REDIRECCIONAR A LA LISTA
-
+        redirect('medico/index', 'refresh');
     }
 
     public function modificar()
     {
-        $idMedico=$_POST['idMedico'];
-        //echo $idMedico;
-        $idMedico=$_POST['idMedico'];
-        $data['infoMedico']=$this->Medico_model->recuperarMedico($idMedico);
+        $idMedico = $this->input->post('idMedico');
+        $data['infoMedico'] = $this->Medico_model->recuperarMedico($idMedico);
         $this->load->view('inc/head');
         $this->load->view('inc/header');
-        
-        //$this->load->view('inc/menu');
-        $this->load->view('formModificarMedico_view',$data);
+        $this->load->view('formModificarMedico_view', $data);
         $this->load->view('inc/footer');
-        //$this->load->view('inc/pie');
-    
     }
 
     public function modificarbd()
     {
-        $idMedico=$_POST['idMedico'];
-        $data['nombre']=$_POST['idMedico'];
-        
+        $idMedico = $this->input->post('idMedico');
+        $data['nombre'] = $this->input->post('nombre');
+        $data['apellido'] = $this->input->post('apellido');
+        $data['fechaNacimiento'] = $this->input->post('fechaNacimiento');
+        $data['telefono'] = $this->input->post('telefono');
+        $data['direccion'] = $this->input->post('direccion');
+        $data['email'] = $this->input->post('email');
+        $data['contrasenia'] = $this->input->post('contrasenia');
 
-        $data['nombre'] = $_POST['nombre'];
-        $data['apellido'] = $_POST['apellido'];
-        $data['fechaNacimiento'] = $_POST['fechaNacimiento'];
-        $data['telefono'] = $_POST['telefono'];
-        $data['direccion'] = $_POST['direccion'];
-        $data['email'] = $_POST['email'];
-        $data['contrasenia'] = $_POST['contrasenia'];
-        $data['rol'] = $_POST['rol'];
+        $dataMedico['especialidad'] = $this->input->post('especialidad');
 
-        $this->Medico_model->modificarMedico($idMedico,$data);
-        redirect('medico/index','refresh');//REDIRECCIONAR A LA LISTA
-        
+        $this->Medico_model->modificarUsuario($idMedico, $data);
+        $this->Medico_model->modificarMedico($idMedico, $dataMedico);
+
+        redirect('medico/index', 'refresh');
     }
-
-    // public function pruebabd(){
-    //     $query=$this->db->get('medicos');
-    //     $execonsulta=$query->result();
-    //     print_r($execonsulta);
-    // }
-
-    // public function personas()
-    // {
-
-    // $lista=$this->Medico_model->listaMedicos();
-    // $data['medicos']=$lista;
-    // $this->load->view('Medico_view',$data);
-    // }
 }
