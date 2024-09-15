@@ -5,11 +5,12 @@
                 <div class="row align-items-center">
                     <div class="col-md-12">
                         <div class="page-header-title">
-                            <h5 class="m-b-10">Lista de Usuarios</h5>
+                            <h5 class="m-b-10">Usuarios Deshabilitados</h5>
                         </div>
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>"><i class="feather icon-home"></i></a></li>
                             <li class="breadcrumb-item"><a href="#!">Administración</a></li>
+                            <li class="breadcrumb-item"><a href="#!">Usuarios Deshabilitados</a></li>
                         </ul>
                     </div>
                 </div>
@@ -20,13 +21,7 @@
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5>Lista de Usuarios</h5>
-                        <a href="<?php echo base_url()?>index.php/Administrador/agregar" class="btn btn-primary float-right mr-2">
-                            Agregar Usuario
-                        </a>
-                        <a href="<?php echo base_url()?>index.php/Administrador/usuariosDeshabilitados" class="btn btn-secondary float-right">
-                            Ver Usuarios Deshabilitados
-                        </a>
+                        <h5>Lista de Usuarios Deshabilitados</h5>
                     </div>
                     <div class="card-body table-border-style">
                         <div class="table-responsive">
@@ -36,13 +31,8 @@
                                         <th>No.</th>
                                         <th>Nombre</th>
                                         <th>Apellido</th>
-                                        <th>Fecha Nacimiento</th>
-                                        <th>Teléfono</th>
-                                        <th>Dirección</th>
                                         <th>Email</th>
                                         <th>Rol</th>
-                                        <th>Detalles</th>
-                                        <th>Última Actualización</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
@@ -55,27 +45,15 @@
                                             <td><?php echo $contador?></td>
                                             <td><?php echo $row->nombre; ?></td>
                                             <td><?php echo $row->apellido;?></td>
-                                            <td><?php echo $row->fechaNacimiento;?></td>
-                                            <td><?php echo $row->telefono;?></td>
-                                            <td><?php echo $row->direccion;?></td>
                                             <td><?php echo $row->email;?></td>
                                             <td><?php echo $row->rol;?></td>
                                             <td>
-                                                <?php 
-                                                if ($row->rol == 'Paciente') {
-                                                    echo "Alergias: " . $row->alergias . "<br>";
-                                                    echo "Tipo de Sangre: " . $row->tipoSangre;
-                                                } elseif ($row->rol == 'Medico') {
-                                                    echo "Especialidad: " . $row->especialidad;
-                                                }
-                                                ?>
-                                            </td>
-                                            <td><?php echo $row->ultimaActualizacion;?></td>
-                                            <td class="text-center">
-                                                <div class="btn-group">
-                                                    <a href="<?php echo base_url('index.php/Administrador/modificar/'.$row->idUsuario); ?>" class="btn btn-info btn-sm"><i class="fas fa-edit"></i> Modificar</a>
-                                                    <a href="<?php echo base_url('index.php/Administrador/cambiarEstado/'.$row->idUsuario.'/0'); ?>" class="btn btn-warning btn-sm" onclick="return confirm('¿Está seguro de que desea deshabilitar este usuario?');"><i class="fas fa-ban"></i> Deshabilitar</a>
-                                                </div>
+                                                <a href="<?php echo base_url('index.php/Administrador/cambiarEstado/'.$row->idUsuario.'/1'); ?>" class="btn btn-success btn-sm">Habilitar</a>
+                                                
+                                                <form method="POST" action="<?php echo base_url('index.php/Administrador/eliminarbd'); ?>" style="display:inline;">
+                                                    <input type="hidden" name="idUsuario" value="<?php echo $row->idUsuario; ?>">
+                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Está seguro de que desea eliminar este usuario permanentemente? Esta acción no se puede deshacer.');">Eliminar</button>
+                                                </form>
                                             </td>
                                         </tr>
                                     <?php
