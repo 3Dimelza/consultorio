@@ -22,6 +22,9 @@
                 <div class="card">
                     <div class="card-header">
                         <h5>Lista de Usuarios Deshabilitados</h5>
+                        <a href="<?php echo base_url(); ?>index.php/Administrador/index" class="btn btn-primary float-right">
+                            Volver a Usuarios Activos
+                        </a>
                     </div>
                     <div class="card-body table-border-style">
                         <div class="table-responsive">
@@ -50,10 +53,10 @@
                                             <td>
                                                 <a href="<?php echo base_url('index.php/Administrador/cambiarEstado/'.$row->idUsuario.'/1'); ?>" class="btn btn-success btn-sm">Habilitar</a>
                                                 
-                                                <form method="POST" action="<?php echo base_url('index.php/Administrador/eliminarbd'); ?>" style="display:inline;">
+                                                <?php echo form_open('Administrador/eliminarbd', ['style' => 'display:inline;']); ?>
                                                     <input type="hidden" name="idUsuario" value="<?php echo $row->idUsuario; ?>">
                                                     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Está seguro de que desea eliminar este usuario permanentemente? Esta acción no se puede deshacer.');">Eliminar</button>
-                                                </form>
+                                                <?php echo form_close(); ?>
                                             </td>
                                         </tr>
                                     <?php

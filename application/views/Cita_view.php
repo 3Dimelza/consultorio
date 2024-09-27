@@ -1,59 +1,94 @@
 <div class="pcoded-main-container">
     <div class="pcoded-content">
-        <!-- ... (código anterior) ... -->
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <div class="page-header-title">
+                            <h5 class="m-b-10">Gestión de Citas</h5>
+                        </div>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>"><i class="feather icon-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="#!">Gestión de Citas</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <div class="row">
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-header">
                         <h5>Lista de Citas</h5>
-                        <a href="<?php echo base_url('Cita/agregar'); ?>" class="btn btn-primary float-right">Agregar Cita</a>
+                        <div class="card-header-right">
+                            <a href="<?php echo base_url('index.php/cita/agregar'); ?>" class="btn btn-primary">Agendar Nueva Cita</a>
+                        </div>
                     </div>
                     <div class="card-body table-border-style">
+                        <?php if($this->session->flashdata('mensaje')): ?>
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <?php echo $this->session->flashdata('mensaje'); ?>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        <?php endif; ?>
+                        <?php if($this->session->flashdata('error')): ?>
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <?php echo $this->session->flashdata('error'); ?>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        <?php endif; ?>
                         <div class="table-responsive">
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Fecha</th>
+                                        <th>No.</th>
                                         <th>Paciente</th>
                                         <th>Médico</th>
+                                        <th>Fecha y Hora</th>
+                                        <th>Motivo</th>
                                         <th>Tipo de Atención</th>
-                                        <th>Motivo de Consulta</th>
+                                        <th>Costo</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($citas as $cita): ?>
-                                        <tr data-toggle="collapse" data-target="#detalle-<?php echo $cita->idCita; ?>" class="accordion-toggle">
-                                            <td><?php echo $cita->idCita; ?></td>
-                                            <td><?php echo $cita->fecha; ?></td>
-                                            <td><?php echo $cita->nombrePaciente; ?></td>
-                                            <td><?php echo $cita->nombreMedico; ?></td>
-                                            <td><?php echo $cita->nombreTipoAtencion; ?></td>
-                                            <td><?php echo $cita->motivoConsulta; ?></td>
-                                            <td>
-                                                <a href="<?php echo base_url('Cita/modificar/'.$cita->idCita); ?>" class="btn btn-sm btn-info">Modificar</a>
-                                                <a href="<?php echo base_url('Cita/eliminar/'.$cita->idCita); ?>" class="btn btn-sm btn-danger" onclick="return confirm('¿Está seguro de eliminar esta cita?')">Eliminar</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="7" class="hiddenRow">
-                                                <div class="accordian-body collapse" id="detalle-<?php echo $cita->idCita; ?>">
-                                                    <h6>Detalles de la Cita</h6>
-                                                    <p><strong>Cita Cabeza:</strong></p>
-                                                    <ul>
-                                                        <li>Estado: <?php echo $cita->citaCabeza->estado; ?></li>
-                                                        <!-- Agregar más detalles de cita_cabeza aquí -->
-                                                    </ul>
-                                                    <p><strong>Cita Detalle:</strong></p>
-                                                    <ul>
-                                                        <li>Costo de Atención: <?php echo $cita->citaDetalle->costoAtencion; ?></li>
-                                                        <!-- Agregar más detalles de cita_detalle aquí -->
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
+                                    <?php
+                                    $contador = 1;
+                                    foreach ($citas as $cita): ?>
+                                    <tr>
+                                        <td><?php echo $contador; ?></td>
+                                        <td><?php echo $cita->nombre_paciente . ' ' . $cita->apellido_paciente; ?></td>
+                                        <td><?php echo $cita->nombre_medico . ' ' . $cita->apellido_medico; ?></td>
+                                        <td><?php echo date('d/m/Y H:i', strtotime($cita->fecha)); ?></td>
+                                        <td><?php echo $cita->motivoConsulta; ?></td>
+                                        <td><?php echo $cita->nombreTipoAtencion; ?></td>
+                                        <td>Bs. <?php echo number_format($cita->costoAtencion, 2); ?></td>
+                                        <td class="text-center">
+                                            <div class="btn-group">
+                                                <a href="<?php echo base_url('index.php/cita/ver/'.$cita->idCita); ?>" class="btn btn-info btn-sm">
+                                                    <i class="feather icon-eye"></i> Ver
+                                                </a>
+                                                <a href="<?php echo base_url('index.php/cita/modificar/'.$cita->idCita); ?>" class="btn btn-primary btn-sm">
+                                                    <i class="fas fa-edit"></i> Modificar
+                                                </a>
+                                                
+
+                                                <?php if($cita->estado == 1): ?>
+                                                    <a href="<?php echo base_url('index.php/cita/cancelar/'.$cita->idCita); ?>" class="btn btn-warning btn-sm" onclick="return confirm('¿Está seguro de que desea cancelar esta cita?');">
+                                                        <i class="fas fa-ban"></i> Cancelar
+                                                    </a>
+                                                <?php endif; ?>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                    $contador++;
+                                    endforeach; ?>
                                 </tbody>
                             </table>
                         </div>

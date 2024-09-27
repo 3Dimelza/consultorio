@@ -12,12 +12,11 @@ class Administrador_model extends CI_Model {
         return $this->db->get();
     }
 
-    public function cambiarEstadoUsuario($idUsuario, $estado, $idUsuario_auditoria) {
+    public function cambiarEstadoUsuario($idUsuario, $estado) {
         $this->db->trans_start();
         
         $data = array(
             'estado' => $estado,
-            'idUsuario_auditoria' => $idUsuario_auditoria,
             'ultimaActualizacion' => date('Y-m-d H:i:s')
         );
         
@@ -36,6 +35,7 @@ class Administrador_model extends CI_Model {
         $this->db->trans_complete();
         return $this->db->trans_status() !== FALSE;
     }
+
 
     public function agregarUsuario($data) {
         $this->db->insert('usuarios', $data);
@@ -89,11 +89,13 @@ class Administrador_model extends CI_Model {
     }
     
     public function modificarPaciente($idPaciente, $data) {
+        $data['ultimaActualizacion'] = date('Y-m-d H:i:s');
         $this->db->where('idPaciente', $idPaciente);
         return $this->db->update('pacientes', $data);
     }
     
     public function modificarMedico($idMedico, $data) {
+        $data['ultimaActualizacion'] = date('Y-m-d H:i:s');
         $this->db->where('idMedico', $idMedico);
         return $this->db->update('medicos', $data);
     }

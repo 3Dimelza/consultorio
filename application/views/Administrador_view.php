@@ -42,6 +42,7 @@
                                         <th>Email</th>
                                         <th>Rol</th>
                                         <th>Detalles</th>
+                                        <th>Fecha Creación</th>
                                         <th>Última Actualización</th>
                                         <th>Acciones</th>
                                     </tr>
@@ -70,6 +71,7 @@
                                                 }
                                                 ?>
                                             </td>
+                                            <td><?php echo $row->fechaCreacion;?></td>
                                             <td><?php echo $row->ultimaActualizacion;?></td>
                                             <td class="text-center">
                                                 <div class="btn-group">

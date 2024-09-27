@@ -20,8 +20,11 @@
                 <div class="card">
                     <div class="card-header">
                         <h5>Lista de Médicos</h5>
-                        <a href="<?php echo base_url(); ?>index.php/Medico/agregar" class="btn btn-primary float-right">
+                        <a href="<?php echo base_url(); ?>index.php/Medico/agregar" class="btn btn-primary float-right mr-2">
                             Agregar Médico
+                        </a>
+                        <a href="<?php echo base_url(); ?>index.php/Medico/medicosDeshabilitados" class="btn btn-secondary float-right">
+                            Ver Médicos Deshabilitados
                         </a>
                     </div>
                     <div class="card-body table-border-style">
@@ -60,10 +63,7 @@
                                                         <button type="submit" class="btn btn-info btn-sm"><i class="fas fa-edit"></i> Modificar</button>
                                                     <?php echo form_close(); ?>
                                                    
-                                                    <?php echo form_open('Medico/eliminarbd'); ?>
-                                                        <input type="hidden" name="idMedico" value="<?php echo $row->idUsuario; ?>">
-                                                        <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Eliminar</button>
-                                                    <?php echo form_close(); ?>
+                                                    <a href="<?php echo base_url('index.php/Medico/cambiarEstado/'.$row->idUsuario.'/0'); ?>" class="btn btn-warning btn-sm" onclick="return confirm('¿Está seguro de que desea deshabilitar este médico?');"><i class="fas fa-ban"></i> Deshabilitar</a>
                                                 </div>
                                             </td>
                                         </tr>

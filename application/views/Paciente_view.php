@@ -23,6 +23,9 @@
                         <a href="<?php echo base_url(); ?>index.php/Paciente/agregar" class="btn btn-primary float-right">
                             Agregar Paciente
                         </a>
+                        <a href="<?php echo base_url(); ?>index.php/Paciente/pacientesDeshabilitados" class="btn btn-secondary float-right mr-2">
+                            Ver Pacientes Deshabilitados
+                        </a>
                     </div>
                     <div class="card-body table-border-style">
                         <div class="table-responsive">
@@ -57,15 +60,8 @@
                                             <td><?php echo $row->tipoSangre; ?></td>
                                             <td class="text-center">
                                                 <div class="btn-group">
-                                                    <?php echo form_open('Paciente/modificar'); ?>
-                                                        <input type="hidden" name="idPaciente" value="<?php echo $row->idUsuario; ?>">
-                                                        <button type="submit" class="btn btn-info btn-sm"><i class="fas fa-edit"></i> Modificar</button>
-                                                    <?php echo form_close(); ?>
-                                                    
-                                                    <?php echo form_open('Paciente/eliminarbd'); ?>
-                                                        <input type="hidden" name="idPaciente" value="<?php echo $row->idUsuario; ?>">
-                                                        <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Eliminar</button>
-                                                    <?php echo form_close(); ?>
+                                                    <a href="<?php echo base_url('index.php/Paciente/modificar/'.$row->idUsuario); ?>" class="btn btn-info btn-sm"><i class="fas fa-edit"></i> Modificar</a>
+                                                    <a href="<?php echo base_url('index.php/Paciente/cambiarEstado/'.$row->idUsuario.'/0'); ?>" class="btn btn-warning btn-sm" onclick="return confirm('¿Está seguro de que desea deshabilitar este paciente?');"><i class="fas fa-ban"></i> Deshabilitar</a>
                                                 </div>
                                             </td>
                                         </tr>

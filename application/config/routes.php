@@ -56,3 +56,6 @@ $route['translate_uri_dashes'] = FALSE;
 $route['administrador/modificar/(:num)'] = 'administrador/modificar/$1';
 $route['administrador/modificarbd'] = 'administrador/modificarbd';
 $route['administrador/eliminar/(:num)'] = 'administrador/eliminarbd/$1';
+
+$route['cita'] = 'cita/index';
+$route['cita/agregar'] = 'cita/agregar';

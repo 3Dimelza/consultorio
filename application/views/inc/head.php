@@ -94,14 +94,14 @@
 					</li>
 
 					<li class="nav-item">
-						<a href="<?php echo base_url(); ?>index.php/Citas/index" class="nav-link " target="_blank">
+						<a href="<?php echo base_url(); ?>index.php/Reporte/index" class="nav-link " target="_blank">
 							<span class="pcoded-micon"><i class="feather icon-layout"></i></span>
 							<span class="pcoded-mtext">Reportes</span>
 						</a>
 					</li>
 
 					<li class="nav-item">
-						<a href="index.html" class="nav-link ">
+						<a href="<?php echo base_url(); ?>index.php/Cobro/index" class="nav-link " target="_blank">
 							<span class="pcoded-micon"><i class="feather icon-layout"></i></span>
 							<span class="pcoded-mtext">Cobros</span>
 						</a>
