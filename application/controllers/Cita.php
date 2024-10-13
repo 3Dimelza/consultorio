@@ -17,17 +17,31 @@ class Cita extends CI_Controller {
 
     public function index() {
         $data['citas'] = $this->Cita_model->listarCitas(1);
-        $data['contador'] = 1; // Inicializa el contador
         $this->load->view('inc/head');
         $this->load->view('inc/header');
         $this->load->view('Cita_view', $data);
         $this->load->view('inc/footer');
     }
     
+    
+    public function ver($idCita) {
+        $data['cita'] = $this->Cita_model->recuperarCitaDetallada($idCita);
+        $data['numero_correlativo'] = $this->Cita_model->obtenerNumeroCorrelativo($idCita);
+        
+        if (!$data['cita']) {
+            show_404();
+        }
+        
+        $this->load->view('inc/head');
+        $this->load->view('inc/header');
+        $this->load->view('verCita_view', $data);
+        $this->load->view('inc/footer');
+    }
 
+    
     public function agregar() {
-        $data['medicos'] = $this->Medico_model->listaMedicos(1)->result();
-        $data['pacientes'] = $this->Paciente_model->listaPacientes(1)->result();
+        $data['medicos'] = $this->Medico_model->listaMedicos(1);
+        $data['pacientes'] = $this->Paciente_model->listaPacientes(1);
         $data['tipos_atencion'] = $this->Cita_model->obtenerTiposDeAtencion();
         $data['horarios_disponibles'] = $this->Cita_model->obtenerHorariosDisponibles();
         
@@ -37,6 +51,9 @@ class Cita extends CI_Controller {
         $this->load->view('inc/footer');
     }
 
+    
+
+
     public function agregarbd() {
         $this->form_validation->set_rules('idPaciente', 'Paciente', 'required');
         $this->form_validation->set_rules('idMedico', 'Médico', 'required');
@@ -44,7 +61,7 @@ class Cita extends CI_Controller {
         $this->form_validation->set_rules('hora', 'Hora', 'required');
         $this->form_validation->set_rules('motivoConsulta', 'Motivo de consulta', 'required');
         $this->form_validation->set_rules('idTipoDeAtencion', 'Tipo de Atención', 'required');
-
+    
         if ($this->form_validation->run() == FALSE) {
             $this->agregar();
         } else {
@@ -53,18 +70,19 @@ class Cita extends CI_Controller {
                 'idMedico' => $this->input->post('idMedico'),
                 'fecha' => $this->input->post('fecha') . ' ' . $this->input->post('hora'),
                 'motivoConsulta' => $this->input->post('motivoConsulta'),
-                'idTipoDeAtencion' => $this->input->post('idTipoDeAtencion')
+                'idTipoDeAtencion' => $this->input->post('idTipoDeAtencion'),
+                'estado' => 'pendiente'
             );
     
             $resultado = $this->Cita_model->agendarCita($datos_cita);
     
-            if ($resultado) {
-                $this->session->set_flashdata('mensaje', 'Cita agendada con éxito');
+            if ($resultado['success']) {
+                $this->session->set_flashdata('mensaje', 'Cita agendada con éxito.');
+                redirect('cita'); // Redirect to the citas list
             } else {
-                $this->session->set_flashdata('error', 'Error al agendar la cita');
+                $this->session->set_flashdata('error', $resultado['message']);
+                $this->agregar();
             }
-    
-            redirect('cita');
         }
     }
 
@@ -143,15 +161,7 @@ class Cita extends CI_Controller {
         echo json_encode($horarios);
     }
 
-    public function ver($idCita) {
-        $data['cita'] = $this->Cita_model->recuperarCitaDetallada($idCita);
-        $data['numero_correlativo'] = $this->Cita_model->obtenerNumeroCorrelativo($idCita);
-        
-        $this->load->view('inc/head');
-        $this->load->view('inc/header');
-        $this->load->view('verCita_view', $data);
-        $this->load->view('inc/footer');
-    }
+
 
     public function generarPDF($idCita) {
         $this->load->library('pdf');

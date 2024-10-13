@@ -48,17 +48,7 @@
             </li>
         </ul>
         <ul class="navbar-nav ml-auto">
-            <li>
-                <div class="dropdown">
-                    <a class="dropdown-toggle" href="#" data-toggle="dropdown">
-                        <i class="icon feather icon-bell"></i>
-                        <span class="badge badge-pill badge-danger">5</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right notification">
-                        <!-- ... (contenido de notificaciones, sin cambios) ... -->
-                    </div>
-                </div>
-            </li>
+            
             <li>
                 <div class="dropdown drp-user">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">

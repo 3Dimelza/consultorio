@@ -2,13 +2,8 @@
 <html lang="en">
 
 <head>
-    <title>Flat Able - Premium Admin Template by Phoenixcoded</title>
-    <!-- HTML5 Shim and Respond.js IE11 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 11]>
-    	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    	<![endif]-->
+    <title>Neurovertebral</title>
+    
     <!-- Meta -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
@@ -22,6 +17,48 @@
     <!-- vendor css -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>Template/dist/assets/css/style.css">
     
+
+<!-- jQuery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<!-- FullCalendar CSS -->
+<link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.css' rel='stylesheet' />
+
+<!-- FullCalendar JS -->
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/locales/es.js'></script>
+
+
+
+<!-- Script para navegación AJAX -->
+<script>
+$(document).ready(function() {
+	function cargarContenido(url) {
+		$.ajax({
+			url: url,
+			type: 'GET',
+			dataType: 'html',
+			success: function(data) {
+				$('#contenido-principal').html(data);
+				history.pushState(null, '', url);
+			},
+			error: function() {
+				alert('Error al cargar el contenido');
+			}
+		});
+	}
+
+	$(document).on('click', 'a.ajax-link', function(e) {
+		e.preventDefault();
+		var url = $(this).attr('href');
+		cargarContenido(url);
+	});
+
+	$(window).on('popstate', function() {
+		cargarContenido(location.href);
+	});
+});
+</script>
     
 
 </head>
@@ -55,128 +92,64 @@
 					</div>
 				</div>
 				
+				
+
+
 				<ul class="nav pcoded-inner-navbar ">
 					<li class="nav-item pcoded-menu-caption">
 						<label>Navegacion</label>
 					</li>
 					
 					<li class="nav-item">
-					    <a href="index.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Inicio</span></a>
+						<a href="<?php echo base_url(); ?>index.php/Home/index" class="nav-link ajax-link">
+							<span class="pcoded-micon"><i class="feather icon-home"></i></span>
+							<span class="pcoded-mtext">Inicio</span>
+						</a>
 					</li>
-					  
 
 					<li class="nav-item">
-						<a href="<?php echo base_url(); ?>index.php/Administrador/index" class="nav-link " target="_blank">
-							<span class="pcoded-micon"><i class="feather icon-layout"></i></span>
+						<a href="<?php echo base_url(); ?>index.php/Administrador/index" class="nav-link ajax-link">
+							<span class="pcoded-micon"><i class="feather icon-users"></i></span>
 							<span class="pcoded-mtext">Usuarios</span>
 						</a>
 					</li>
 
 					<li class="nav-item">
-						<a href="<?php echo base_url(); ?>index.php/Paciente/index" class="nav-link " target="_blank">
-							<span class="pcoded-micon"><i class="feather icon-layout"></i></span>
+						<a href="<?php echo base_url(); ?>index.php/Paciente/index" class="nav-link ajax-link">
+							<span class="pcoded-micon"><i class="feather icon-user"></i></span>
 							<span class="pcoded-mtext">Paciente</span>
 						</a>
 					</li>
 
 					<li class="nav-item">
-						<a href="<?php echo base_url(); ?>index.php/Medico/index" class="nav-link " target="_blank">
-							<span class="pcoded-micon"><i class="feather icon-layout"></i></span>
+						<a href="<?php echo base_url(); ?>index.php/Medico/index" class="nav-link ajax-link">
+							<span class="pcoded-micon"><i class="feather icon-user-check"></i></span>
 							<span class="pcoded-mtext">Medico</span>
 						</a>
 					</li>
 
 					<li class="nav-item">
-						<a href="<?php echo base_url(); ?>index.php/Cita/index" class="nav-link " target="_blank">
-							<span class="pcoded-micon"><i class="feather icon-layout"></i></span>
+						<a href="<?php echo base_url(); ?>index.php/Cita/index" class="nav-link ajax-link">
+							<span class="pcoded-micon"><i class="feather icon-calendar"></i></span>
 							<span class="pcoded-mtext">Citas</span>
 						</a>
 					</li>
 
 					<li class="nav-item">
-						<a href="<?php echo base_url(); ?>index.php/Reporte/index" class="nav-link " target="_blank">
-							<span class="pcoded-micon"><i class="feather icon-layout"></i></span>
+						<a href="<?php echo base_url(); ?>index.php/Reporte/index" class="nav-link ajax-link">
+							<span class="pcoded-micon"><i class="feather icon-file-text"></i></span>
 							<span class="pcoded-mtext">Reportes</span>
 						</a>
 					</li>
 
 					<li class="nav-item">
-						<a href="<?php echo base_url(); ?>index.php/Cobro/index" class="nav-link " target="_blank">
-							<span class="pcoded-micon"><i class="feather icon-layout"></i></span>
+						<a href="<?php echo base_url(); ?>index.php/Cobro/index" class="nav-link ajax-link">
+							<span class="pcoded-micon"><i class="feather icon-credit-card"></i></span>
 							<span class="pcoded-mtext">Cobros</span>
 						</a>
 					</li>
-
-		
-
-
-
-
-					<li class="nav-item pcoded-menu-caption">
-						<label>UI Element</label>
-					</li>
-					<li class="nav-item pcoded-hasmenu">
-						<a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">Basic</span></a>
-						<ul class="pcoded-submenu">
-							<li><a href="bc_alert.html">Alert</a></li>
-							<li><a href="bc_button.html">Button</a></li>
-							<li><a href="bc_badges.html">Badges</a></li>
-							<li><a href="bc_breadcrumb-pagination.html">Breadcrumb & paggination</a></li>
-							<li><a href="bc_card.html">Cards</a></li>
-							<li><a href="bc_collapse.html">Collapse</a></li>
-							<li><a href="bc_carousel.html">Carousel</a></li>
-							<li><a href="bc_grid.html">Grid system</a></li>
-							<li><a href="bc_progress.html">Progress</a></li>
-							<li><a href="bc_modal.html">Modal</a></li>
-							<li><a href="bc_spinner.html">Spinner</a></li>
-							<li><a href="bc_tabs.html">Tabs & pills</a></li>
-							<li><a href="bc_typography.html">Typography</a></li>
-							<li><a href="bc_tooltip-popover.html">Tooltip & popovers</a></li>
-							<li><a href="bc_toasts.html">Toasts</a></li>
-							<li><a href="bc_extra.html">Other</a></li>
-						</ul>
-					</li>
-					<li class="nav-item pcoded-menu-caption">
-					    <label>Formularios &amp; Tablas</label>
-					</li>
-					<li class="nav-item">
-					    <a href="form_elements.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file-text"></i></span><span class="pcoded-mtext">Formularios</span></a>
-					</li>
-					<li class="nav-item">
-					    <a href="tbl_bootstrap.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-align-justify"></i></span><span class="pcoded-mtext">Bootstrap tabla</span></a>
-					</li>
-					<li class="nav-item pcoded-menu-caption">
-						<label>Chart & Mapas</label>
-					</li>
-					<li class="nav-item">
-					    <a href="chart-apex.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-pie-chart"></i></span><span class="pcoded-mtext">Chart</span></a>
-					</li>
-					<li class="nav-item">
-					    <a href="map-google.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-map"></i></span><span class="pcoded-mtext">Mapas</span></a>
-					</li>
-					<li class="nav-item pcoded-menu-caption">
-						<label>Paginas</label>
-					</li>
-					<li class="nav-item pcoded-hasmenu">
-					    <a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-lock"></i></span><span class="pcoded-mtext">Autentificacion</span></a>
-					    <ul class="pcoded-submenu">
-					        <li><a href="auth-signup.html" target="_blank">Sign up</a></li>
-					        <li><a href="auth-signin.html" target="_blank">Sign in</a></li>
-					    </ul>
-					</li>
-					<li class="nav-item"><a href="sample-page.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-sidebar"></i></span><span class="pcoded-mtext">Sample page</span></a></li>
-
 				</ul>
-				
-				<div class="card text-center">
-					<div class="card-block">
-						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-						<i class="feather icon-sunset f-40"></i>
-						<h6 class="mt-3">Upgrade To Pro</h6>
-						<p>Por favor contactanos a nuestro correo electronico si necesita ayuda</p>
-						<a href="https://1.envato.market/PgJNQ" target="_blank" class="btn btn-primary btn-sm text-white m-0">Upgrade</a>
-					</div>
-				</div>
+	
 				
 			</div>
 		</div>

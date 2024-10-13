@@ -1,24 +1,26 @@
-<!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Recibo de Cobro</title>
     <style>
         body { font-family: Arial, sans-serif; }
         .header { text-align: center; margin-bottom: 20px; }
         .details { margin-bottom: 20px; }
         .details table { width: 100%; border-collapse: collapse; }
         .details th, .details td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        .footer { text-align: center; font-size: 12px; margin-top: 20px; }
+        .footer { text-align: center; margin-top: 20px; }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>Recibo de Cobro</h1>
-        <p>Recibo No: <?php echo $cobro->idCobro; ?></p>
+        <h1>Comprobante de Pago</h1>
+        <p>Fecha de emisión: <?php echo date('d/m/Y H:i'); ?></p>
     </div>
+
     <div class="details">
         <table>
+            <tr>
+                <th>Número de Comprobante:</th>
+                <td><?php echo $cobro->idCobro; ?></td>
+            </tr>
             <tr>
                 <th>Paciente:</th>
                 <td><?php echo $cobro->nombrePaciente; ?></td>
@@ -32,21 +34,24 @@
                 <td><?php echo $cobro->nombreTipoAtencion; ?></td>
             </tr>
             <tr>
-                <th>Monto:</th>
+                <th>Monto Pagado:</th>
+                <td>
                 <td>Bs. <?php echo number_format($cobro->monto, 2); ?></td>
+            </tr>
+            <tr>
+                <th>Fecha de Pago:</th>
+                <td><?php echo date('d/m/Y H:i', strtotime($cobro->fechaCobro)); ?></td>
             </tr>
             <tr>
                 <th>Método de Pago:</th>
                 <td><?php echo $cobro->metodoPago; ?></td>
             </tr>
-            <tr>
-                <th>Fecha de Cobro:</th>
-                <td><?php echo date('d/m/Y H:i', strtotime($cobro->fechaCobro)); ?></td>
-            </tr>
         </table>
     </div>
+
     <div class="footer">
-        <p>Este documento es un comprobante de pago. Gracias por su preferencia.</p>
+        <p>Gracias por su pago. Este comprobante es válido como recibo de pago.</p>
+        <p>Para cualquier consulta, por favor contacte con nuestro servicio de atención al cliente.</p>
     </div>
 </body>
 </html>

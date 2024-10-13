@@ -57,5 +57,16 @@ $route['administrador/modificar/(:num)'] = 'administrador/modificar/$1';
 $route['administrador/modificarbd'] = 'administrador/modificarbd';
 $route['administrador/eliminar/(:num)'] = 'administrador/eliminarbd/$1';
 
+
 $route['cita'] = 'cita/index';
 $route['cita/agregar'] = 'cita/agregar';
+$route['cita/agregarbd'] = 'cita/agregarbd';
+$route['cita/ver/(:num)'] = 'cita/ver/$1';
+$route['cita/modificar/(:num)'] = 'cita/modificar/$1';
+$route['cita/modificarbd'] = 'cita/modificarbd';
+$route['cita/cancelar/(:num)'] = 'cita/cancelar/$1';
+
+$route['cobro'] = 'cobro/index';
+$route['cobro/registrar/(:num)'] = 'cobro/registrar/$1';
+$route['cobro/confirmar/(:num)'] = 'cobro/confirmar/$1';
+$route['cobro/cancelar'] = 'cobro/cancelar';

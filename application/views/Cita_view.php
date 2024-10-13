@@ -53,22 +53,28 @@
                                         <th>Motivo</th>
                                         <th>Tipo de Atención</th>
                                         <th>Costo</th>
+                                        <th>Estado de Pago</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php
-                                    $contador = 1;
-                                    foreach ($citas as $cita): ?>
+                                    <?php foreach ($citas as $cita): ?>
                                     <tr>
-                                        <td><?php echo $contador; ?></td>
+                                        <td><?php echo $this->Cita_model->obtenerNumeroCorrelativo($cita->idCita); ?></td>
                                         <td><?php echo $cita->nombre_paciente . ' ' . $cita->apellido_paciente; ?></td>
                                         <td><?php echo $cita->nombre_medico . ' ' . $cita->apellido_medico; ?></td>
                                         <td><?php echo date('d/m/Y H:i', strtotime($cita->fecha)); ?></td>
                                         <td><?php echo $cita->motivoConsulta; ?></td>
                                         <td><?php echo $cita->nombreTipoAtencion; ?></td>
                                         <td>Bs. <?php echo number_format($cita->costoAtencion, 2); ?></td>
-                                        <td class="text-center">
+                                        <td>
+                                            <?php if ($cita->idCobro): ?>
+                                                <span class="badge badge-success">Pagado</span>
+                                            <?php else: ?>
+                                                <span class="badge badge-warning">Pendiente</span>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td>
                                             <div class="btn-group">
                                                 <a href="<?php echo base_url('index.php/cita/ver/'.$cita->idCita); ?>" class="btn btn-info btn-sm">
                                                     <i class="feather icon-eye"></i> Ver
@@ -76,19 +82,20 @@
                                                 <a href="<?php echo base_url('index.php/cita/modificar/'.$cita->idCita); ?>" class="btn btn-primary btn-sm">
                                                     <i class="fas fa-edit"></i> Modificar
                                                 </a>
-                                                
-
                                                 <?php if($cita->estado == 1): ?>
                                                     <a href="<?php echo base_url('index.php/cita/cancelar/'.$cita->idCita); ?>" class="btn btn-warning btn-sm" onclick="return confirm('¿Está seguro de que desea cancelar esta cita?');">
                                                         <i class="fas fa-ban"></i> Cancelar
                                                     </a>
                                                 <?php endif; ?>
+                                                <?php if (!$cita->idCobro): ?>
+                                                    <a href="<?php echo base_url('index.php/cobro/registrar/'.$cita->idCita); ?>" class="btn btn-success btn-sm">
+                                                        <i class="fas fa-money-bill"></i> Registrar Pago
+                                                    </a>
+                                                <?php endif; ?>
                                             </div>
                                         </td>
                                     </tr>
-                                    <?php
-                                    $contador++;
-                                    endforeach; ?>
+                                    <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>
