@@ -70,3 +70,5 @@ $route['cobro'] = 'cobro/index';
 $route['cobro/registrar/(:num)'] = 'cobro/registrar/$1';
 $route['cobro/confirmar/(:num)'] = 'cobro/confirmar/$1';
 $route['cobro/cancelar'] = 'cobro/cancelar';
+
+$route['cobro/ver/(:num)'] = 'cobro/ver/$1';

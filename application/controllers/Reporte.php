@@ -3,16 +3,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Reporte extends CI_Controller {
     
-    public function __construct() {
-        parent::__construct();
-        $this->load->model('Reporte_model');
-        
-        $this->load->library('pdf');
-        
-        if(!$this->session->userdata('logged_in')){
-            redirect('login');
-        }
-    }
+	public function __construct() {
+		parent::__construct();
+		$this->load->model('Reporte_model');
+		$this->load->model('Paciente_model');
+		$this->load->model('Medico_model');
+		$this->load->model('Administrador_model');
+		$this->load->library('pdf');
+		
+		if(!$this->session->userdata('logged_in')){
+			redirect('login');
+		}
+	}
 
     public function index() {
         $this->load->view('inc/head');
@@ -46,42 +48,52 @@ class Reporte extends CI_Controller {
     }
 
     public function generarPDF($tipoReporte) {
-        $this->load->library('pdf');
-        
-        switch($tipoReporte) {
-            case 'citasPorMedico':
-                $data['reporte'] = $this->Reporte_model->getCitasPorMedico();
-                $vista = 'pdf/reporteCitasPorMedico';
-                $titulo = 'Reporte de Citas por Médico';
-                break;
-            case 'ingresosPorMes':
-                $data['reporte'] = $this->Reporte_model->getIngresosPorMes();
-                $vista = 'pdf/reporteIngresosPorMes';
-                $titulo = 'Reporte de Ingresos por Mes';
-                break;
-            case 'pacientesFrecuentes':
-                $data['reporte'] = $this->Reporte_model->getPacientesFrecuentes();
-                $vista = 'pdf/reportePacientesFrecuentes';
-                $titulo = 'Reporte de Pacientes Frecuentes';
-                break;
-            default:
-                show_error('Tipo de reporte no válido');
-                return;
-        }
-        
-        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-        $pdf->SetCreator(PDF_CREATOR);
-        $pdf->SetAuthor('Tu Nombre');
-        $pdf->SetTitle($titulo);
-        $pdf->SetSubject($titulo);
-        
-        $pdf->AddPage();
-        
-        $html = $this->load->view($vista, $data, true);
-        $pdf->writeHTML($html, true, false, true, false, '');
-        
-        $pdf->Output($tipoReporte.'.pdf', 'I');
-    }
+		$this->load->library('pdf');
+		
+		switch($tipoReporte) {
+			case 'citasPorMedico':
+				$data['reporte'] = $this->Reporte_model->getCitasPorMedico();
+				$titulo = 'Reporte de Citas por Médico';
+				break;
+			case 'ingresosPorMes':
+				$data['reporte'] = $this->Reporte_model->getIngresosPorMes();
+				$titulo = 'Reporte de Ingresos por Mes';
+				break;
+			case 'pacientesFrecuentes':
+				$data['reporte'] = $this->Reporte_model->getPacientesFrecuentes();
+				$titulo = 'Reporte de Pacientes Frecuentes';
+				break;
+			default:
+				show_error('Tipo de reporte no válido');
+				return;
+		}
+		
+		$pdf = new Pdf();
+		$pdf->AliasNbPages();
+		$pdf->AddPage();
+		$pdf->SetTitle($titulo);
+		
+		$pdf->SetFont('Arial','B',16);
+		$pdf->Cell(0,10,$titulo,0,1,'C');
+		$pdf->Ln(10);
+	
+		$pdf->SetFont('Arial','',12);
+		foreach ($data['reporte'] as $item) {
+			switch($tipoReporte) {
+				case 'citasPorMedico':
+					$pdf->Cell(0,10,$item->nombreMedico . ' - ' . $item->especialidad . ' - ' . $item->totalCitas,0,1);
+					break;
+				case 'ingresosPorMes':
+					$pdf->Cell(0,10,date('F Y', strtotime($item->mes)) . ' - Bs. ' . number_format($item->totalIngresos, 2),0,1);
+					break;
+				case 'pacientesFrecuentes':
+					$pdf->Cell(0,10,$item->nombrePaciente . ' - ' . $item->totalCitas,0,1);
+					break;
+			}
+		}
+		
+		$pdf->Output($tipoReporte.'.pdf', 'I');
+	}
 
     public function listapdfPaciente()
 	{

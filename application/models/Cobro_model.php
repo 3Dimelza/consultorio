@@ -4,28 +4,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Cobro_model extends CI_Model {
 
     public function listarCobros() {
-        $this->db->select('cobros.idCobro, cobros.idCita, cobros.monto, cobros.fechaCobro, cobros.metodoPago,
-                           citas.fecha as fechaCita, 
-                           CONCAT(pacientes.nombre, " ", pacientes.apellido) as nombrePaciente, 
-                           tipodeatencion.nombreTipoAtencion, tipodeatencion.costoAtencion');
+        $this->db->select('cobros.*, citas.fecha as fechaCita, CONCAT(pacientes.nombre, " ", pacientes.apellido) as nombrePaciente, tipodeatencion.nombreTipoAtencion, tipodeatencion.costoAtencion');
         $this->db->from('cobros');
         $this->db->join('citas', 'cobros.idCita = citas.idCita');
         $this->db->join('usuarios as pacientes', 'citas.idPaciente = pacientes.idUsuario');
         $this->db->join('tipodeatencion', 'citas.idTipoDeAtencion = tipodeatencion.idTipoDeAtencion');
-        $this->db->where('citas.estado', 1); // Assuming 1 is the state for completed appointments
         $this->db->order_by('cobros.fechaCobro', 'DESC');
         return $this->db->get()->result();
     }
 
     public function listarCitasPendientesPago() {
-        $this->db->select('citas.idCita, citas.fecha as fechaCita, 
-                           CONCAT(pacientes.nombre, " ", pacientes.apellido) as nombrePaciente, 
-                           tipodeatencion.nombreTipoAtencion, tipodeatencion.costoAtencion');
+        $this->db->select('citas.*, 
+                           CONCAT(pacientes.nombre, " ", pacientes.apellido) as nombre_paciente,
+                           pacientes.nombre as nombre_paciente, 
+                           pacientes.apellido as apellido_paciente, 
+                           tipodeatencion.nombreTipoAtencion, 
+                           tipodeatencion.costoAtencion');
         $this->db->from('citas');
         $this->db->join('usuarios as pacientes', 'citas.idPaciente = pacientes.idUsuario');
         $this->db->join('tipodeatencion', 'citas.idTipoDeAtencion = tipodeatencion.idTipoDeAtencion');
-        $this->db->where('citas.estado', 1); // Assuming 1 is the state for pending appointments
-        $this->db->where('citas.fecha <=', date('Y-m-d H:i:s'));
+        $this->db->where('citas.estado', 1); // Citas pendientes
         $this->db->where('NOT EXISTS (SELECT 1 FROM cobros WHERE cobros.idCita = citas.idCita)', NULL, FALSE);
         $this->db->order_by('citas.fecha', 'ASC');
         return $this->db->get()->result();
@@ -42,14 +40,10 @@ class Cobro_model extends CI_Model {
 
 
     public function obtenerCobro($idCobro) {
-        $this->db->select('cobros.*, citas.fecha as fechaCita, citas.motivoConsulta, 
-                           CONCAT(pacientes.nombre, " ", pacientes.apellido) as nombrePaciente, 
-                           CONCAT(medicos.nombre, " ", medicos.apellido) as nombreMedico, 
-                           tipodeatencion.nombreTipoAtencion, tipodeatencion.costoAtencion');
+        $this->db->select('cobros.*, citas.fecha as fechaCita, CONCAT(pacientes.nombre, " ", pacientes.apellido) as nombrePaciente, tipodeatencion.nombreTipoAtencion, tipodeatencion.costoAtencion');
         $this->db->from('cobros');
         $this->db->join('citas', 'cobros.idCita = citas.idCita');
         $this->db->join('usuarios as pacientes', 'citas.idPaciente = pacientes.idUsuario');
-        $this->db->join('usuarios as medicos', 'citas.idMedico = medicos.idUsuario');
         $this->db->join('tipodeatencion', 'citas.idTipoDeAtencion = tipodeatencion.idTipoDeAtencion');
         $this->db->where('cobros.idCobro', $idCobro);
         return $this->db->get()->row();

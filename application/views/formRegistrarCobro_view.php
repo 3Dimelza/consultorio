@@ -9,7 +9,7 @@
                         </div>
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>"><i class="feather icon-home"></i></a></li>
-                            <li class="breadcrumb-item"><a href="<?php echo base_url('cita'); ?>">Gestión de Citas</a></li>
+                            <li class="breadcrumb-item"><a href="<?php echo base_url('cobro'); ?>">Gestión de Cobros</a></li>
                             <li class="breadcrumb-item"><a href="#!">Registrar Pago</a></li>
                         </ul>
                     </div>

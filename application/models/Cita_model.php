@@ -35,9 +35,8 @@ class Cita_model extends CI_Model {
         $this->db->from('citas');
         $this->db->join('usuarios as pacientes', 'citas.idPaciente = pacientes.idUsuario');
         $this->db->join('tipodeatencion', 'citas.idTipoDeAtencion = tipodeatencion.idTipoDeAtencion');
-        $this->db->where('citas.estado', 'pendiente');
-        $this->db->where('citas.fecha <=', date('Y-m-d H:i:s'));
-        $this->db->order_by('citas.fecha', 'ASC');
+        $this->db->where('citas.estado', 1);
+        $this->db->where('NOT EXISTS (SELECT 1 FROM cobros WHERE cobros.idCita = citas.idCita)', NULL, FALSE);
         return $this->db->get()->result();
     }
 
@@ -75,24 +74,28 @@ class Cita_model extends CI_Model {
     public function agendarCita($datos) {
         $fechaHoraCita = strtotime($datos['fecha']);
         $ahora = time();
-    
-        if ($fechaHoraCita <= $ahora) {
-            return ['success' => false, 'message' => 'No se pueden agendar citas para fechas y horas pasadas.'];
+        
+        // Permitir agendar citas para el día actual, pero no para horas pasadas
+        if (date('Y-m-d', $fechaHoraCita) === date('Y-m-d') && $fechaHoraCita < $ahora) {
+            return ['success' => false, 'message' => 'No se pueden agendar citas para horas pasadas del día actual.'];
         }
-    
+        
         if ($this->existeConflictoMedico($datos['idMedico'], $datos['fecha'])) {
             return ['success' => false, 'message' => 'El médico ya tiene una cita programada para ese horario.'];
         }
-    
+        
         if ($this->existeConflictoPaciente($datos['idPaciente'], $datos['fecha'])) {
             return ['success' => false, 'message' => 'El paciente ya tiene una cita programada para ese horario.'];
         }
-    
+        
+        // Asegurarse de que el estado se establezca como pendiente (1)
+        $datos['estado'] = 1;
+        
         $this->db->trans_start();
-    
+        
         $this->db->insert('citas', $datos);
         $idCita = $this->db->insert_id();
-    
+        
         $datos_cabeza = array(
             'idCita' => $idCita,
             'fecha' => $datos['fecha'],
@@ -102,13 +105,13 @@ class Cita_model extends CI_Model {
         );
         $this->db->insert('cita_cabeza', $datos_cabeza);
         $idCitaCabeza = $this->db->insert_id();
-    
+        
         $tipo_atencion = $this->db->select('nombreTipoAtencion, costoAtencion')
                                   ->from('tipodeatencion')
                                   ->where('idTipoDeAtencion', $datos['idTipoDeAtencion'])
                                   ->get()
                                   ->row();
-    
+        
         $datos_detalle = array(
             'idCitaCabeza' => $idCitaCabeza,
             'nombrePaciente' => $this->obtenerNombreCompleto($datos['idPaciente']),
@@ -117,13 +120,13 @@ class Cita_model extends CI_Model {
             'costoAtencion' => $tipo_atencion->costoAtencion
         );
         $this->db->insert('cita_detalle', $datos_detalle);
-    
+        
         $this->db->trans_complete();
-    
+        
         if ($this->db->trans_status() === FALSE) {
             return ['success' => false, 'message' => 'Error al agendar la cita.'];
         }
-    
+        
         return ['success' => true, 'message' => 'Cita agendada con éxito.', 'idCita' => $idCita];
     }
    

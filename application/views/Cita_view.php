@@ -87,11 +87,7 @@
                                                         <i class="fas fa-ban"></i> Cancelar
                                                     </a>
                                                 <?php endif; ?>
-                                                <?php if (!$cita->idCobro): ?>
-                                                    <a href="<?php echo base_url('index.php/cobro/registrar/'.$cita->idCita); ?>" class="btn btn-success btn-sm">
-                                                        <i class="fas fa-money-bill"></i> Registrar Pago
-                                                    </a>
-                                                <?php endif; ?>
+                                                
                                             </div>
                                         </td>
                                     </tr>

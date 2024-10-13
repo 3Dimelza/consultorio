@@ -21,7 +21,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h5>Citas por Médico</h5>
-                        <a href="<?php echo base_url('reporte/generarPDF/citasPorMedico'); ?>" class="btn btn-primary float-right">
+                        <a href="<?php echo base_url('index.php/reporte/generarPDF/citasPorMedico'); ?>" class="btn btn-primary float-right">
                             Generar PDF
                         </a>
                     </div>

@@ -56,13 +56,15 @@
                                         <?php foreach ($citas_pendientes as $cita): ?>
                                         <tr>
                                             <td><?php echo $cita->idCita; ?></td>
-                                            <td><?php echo isset($cita->nombrePaciente) ? $cita->nombrePaciente : 'N/A'; ?></td>
-                                            <td><?php echo isset($cita->fechaCita) ? date('d/m/Y H:i', strtotime($cita->fechaCita)) : 'N/A'; ?></td>
-                                            <td><?php echo isset($cita->nombreTipoAtencion) ? $cita->nombreTipoAtencion : 'N/A'; ?></td>
-                                            <td>Bs. <?php echo isset($cita->costoAtencion) ? number_format($cita->costoAtencion, 2) : 'N/A'; ?></td>
+                                            <td><?php echo $cita->nombre_paciente . ' ' . $cita->apellido_paciente; ?></td>
+                                            <td><?php echo date('d/m/Y H:i', strtotime($cita->fecha)); ?></td>
+                                            <td><?php echo $cita->nombreTipoAtencion; ?></td>
+                                            <td>Bs. <?php echo number_format($cita->costoAtencion, 2); ?></td>
                                             <td>
-                                                <a href="<?php echo base_url('cobro/registrar/'.$cita->idCita); ?>" class="btn btn-success btn-sm">Registrar Pago</a>
-                                            </td>
+                                            <a href="<?php echo base_url('index.php/cobro/registrar/'.$cita->idCita); ?>" class="btn btn-success btn-sm rounded-pill">
+                                                <i class="fas fa-money-bill-wave mr-1"></i> Registrar Pago
+                                            </a>
+                                        </td>
                                         </tr>
                                         <?php endforeach; ?>
                                     <?php else: ?>
@@ -106,15 +108,15 @@
                                         <tr>
                                             <td><?php echo $cobro->idCobro; ?></td>
                                             <td><?php echo $cobro->idCita; ?></td>
-                                            <td><?php echo isset($cobro->nombrePaciente) ? $cobro->nombrePaciente : 'N/A'; ?></td>
-                                            <td><?php echo isset($cobro->fechaCita) ? date('d/m/Y H:i', strtotime($cobro->fechaCita)) : 'N/A'; ?></td>
-                                            <td><?php echo isset($cobro->nombreTipoAtencion) ? $cobro->nombreTipoAtencion : 'N/A'; ?></td>
-                                            <td>Bs. <?php echo isset($cobro->monto) ? number_format($cobro->monto, 2) : 'N/A'; ?></td>
-                                            <td><?php echo isset($cobro->fechaCobro) ? date('d/m/Y H:i', strtotime($cobro->fechaCobro)) : 'N/A'; ?></td>
-                                            <td><?php echo isset($cobro->metodoPago) ? $cobro->metodoPago : 'N/A'; ?></td>
+                                            <td><?php echo $cobro->nombrePaciente; ?></td>
+                                            <td><?php echo date('d/m/Y H:i', strtotime($cobro->fechaCita)); ?></td>
+                                            <td><?php echo $cobro->nombreTipoAtencion; ?></td>
+                                            <td>Bs. <?php echo number_format($cobro->monto, 2); ?></td>
+                                            <td><?php echo date('d/m/Y H:i', strtotime($cobro->fechaCobro)); ?></td>
+                                            <td><?php echo $cobro->metodoPago; ?></td>
                                             <td>
-                                                <a href="<?php echo base_url('cobro/ver/'.$cobro->idCobro); ?>" class="btn btn-info btn-sm">Ver</a>
-                                                <a href="<?php echo base_url('cobro/generarComprobante/'.$cobro->idCobro); ?>" class="btn btn-primary btn-sm">Generar Comprobante</a>
+                                                <a href="<?php echo base_url('index.php/cobro/ver/'.$cobro->idCobro); ?>" class="btn btn-info btn-sm">Ver</a>
+                                                <a href="<?php echo base_url('index.php/cobro/generarComprobante/'.$cobro->idCobro); ?>" class="btn btn-primary btn-sm">Generar Comprobante</a>
                                             </td>
                                         </tr>
                                         <?php endforeach; ?>

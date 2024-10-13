@@ -9,6 +9,7 @@ class Cobro extends CI_Controller {
         $this->load->model('Cita_model');
         $this->load->library('form_validation');
         $this->load->library('pdf');
+        $this->load->library('ci_qrcode');
         
         if(!$this->session->userdata('logged_in')){
             redirect('login');
@@ -17,8 +18,10 @@ class Cobro extends CI_Controller {
 
 
     public function index() {
+        $this->load->model('Cita_model'); // Asegúrate de cargar el modelo Cita si no lo has hecho en el constructor
+        $data['citas_pendientes'] = $this->Cobro_model->listarCitasPendientesPago();
         $data['cobros'] = $this->Cobro_model->listarCobros();
-        $data['citas_pendientes'] = $this->Cita_model->listarCitasPendientesPago();
+        
         
         $this->load->view('inc/head');
         $this->load->view('inc/header');
@@ -26,32 +29,13 @@ class Cobro extends CI_Controller {
         $this->load->view('inc/footer');
     }
 
-
-    public function ver($idCita) {
-        $data['cobro'] = $this->Cobro_model->obtenerCobroPorIdCita($idCita);
-        $data['cita'] = $this->Cita_model->recuperarCitaDetallada($idCita);
-        
-        if (!$data['cita']) {
-            show_404('Cita no encontrada');
-        }
-        
-        if (!$data['cobro']) {
-            $this->session->set_flashdata('error', 'No se ha registrado un cobro para esta cita.');
-            redirect('cobro');
-        }
-        
-        $this->load->view('inc/head');
-        $this->load->view('inc/header');
-        $this->load->view('verCobro_view', $data);
-        $this->load->view('inc/footer');
-    }
-
+    
 
     public function registrar($idCita) {
         $cita = $this->Cita_model->recuperarCitaDetallada($idCita);
         if (!$cita) {
             $this->session->set_flashdata('error', 'La cita especificada no existe');
-            redirect('cita');
+            redirect('cobro');
         }
     
         if ($this->input->post()) {
@@ -83,6 +67,8 @@ class Cobro extends CI_Controller {
             $this->cargarVistaRegistrarCobro($cita);
         }
     }
+   
+
     
     private function cargarVistaRegistrarCobro($cita) {
         $data['cita'] = $cita;
@@ -92,58 +78,34 @@ class Cobro extends CI_Controller {
         $this->load->view('formRegistrarCobro_view', $data);
         $this->load->view('inc/footer');
     }
+
     
     public function cancelar() {
         $this->session->set_flashdata('mensaje', 'Operación de pago cancelada');
         redirect('cita');
     }
     
+    public function ver($idCobro) {
+        $data['cobro'] = $this->Cobro_model->obtenerCobro($idCobro);
+        if (!$data['cobro']) {
+            $this->session->set_flashdata('error', 'El cobro especificado no existe');
+            redirect('cobro');
+        }
+        $data['cita'] = $this->Cita_model->recuperarCitaDetallada($data['cobro']->idCita);
+        
+        $this->load->view('inc/head');
+        $this->load->view('inc/header');
+        $this->load->view('verCobro_view', $data);
+        $this->load->view('inc/footer');
+    }
+
     
     private function generarNumeroComprobante() {
         return 'COMP-' . date('YmdHis') . '-' . rand(1000, 9999);
     }
 
 
-    public function generarComprobante($idCobro) {
-        $cobro = $this->Cobro_model->obtenerCobro($idCobro);
-        
-        if (!$cobro) {
-            show_404();
-        }
-        
-        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-        $pdf->SetCreator(PDF_CREATOR);
-        $pdf->SetAuthor('Tu Nombre');
-        $pdf->SetTitle('Comprobante de Pago');
-        $pdf->SetSubject('Comprobante de Pago');
-        
-        $pdf->AddPage();
-        
-        $html = $this->load->view('pdf/comprobante_cobro', ['cobro' => $cobro], true);
-        $pdf->writeHTML($html, true, false, true, false, '');
-        
-        $pdf->Output('comprobante_'.$idCobro.'.pdf', 'I');
-    }
-    
-    /*
-    public function generarRecibo($idCobro) {
-        $this->load->library('pdf');
-        $cobro = $this->Cobro_model->obtenerCobro($idCobro);
-        
-        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-        $pdf->SetCreator(PDF_CREATOR);
-        $pdf->SetAuthor('Tu Nombre');
-        $pdf->SetTitle('Recibo de Cobro');
-        $pdf->SetSubject('Recibo de Cobro');
-        
-        $pdf->AddPage();
-        
-        $html = $this->load->view('pdf/recibo_cobro', ['cobro' => $cobro], true);
-        $pdf->writeHTML($html, true, false, true, false, '');
-        
-        $pdf->Output('recibo_'.$idCobro.'.pdf', 'I');
-    }
-    */
+ 
     
     public function reporteIngresos() {
         $data['ingresos'] = $this->Cobro_model->obtenerIngresosPorPeriodo();
@@ -151,5 +113,89 @@ class Cobro extends CI_Controller {
         $this->load->view('inc/header');
         $this->load->view('reporteIngresos_view', $data);
         $this->load->view('inc/footer');
+    }
+
+    public function generarComprobante($idCobro) {
+        // Desactivar la salida del búfer
+        ob_end_clean();
+    
+        $cobro = $this->Cobro_model->obtenerCobro($idCobro);
+        $cita = $this->Cita_model->recuperarCitaDetallada($cobro->idCita);
+        
+        if (!$cobro || !$cita) {
+            show_error('No se encontró el cobro o la cita especificada', 404);
+            return;
+        }
+        
+        try {
+            $pdf = new Pdf('P', 'mm', 'A4');
+            $pdf->AliasNbPages();
+            $pdf->AddPage();
+            
+            // Título
+            $pdf->SetFont('Arial', 'B', 16);
+            $pdf->SetTextColor(25, 25, 112); // Azul oscuro
+            $pdf->Cell(0, 10, 'Comprobante de Pago', 0, 1, 'C');
+            $pdf->Ln(5);
+    
+            // Información del cobro
+            $pdf->SetFont('Arial', '', 12);
+            $pdf->SetTextColor(0);
+    
+            $pdf->WriteHTML("<b>ID de Cobro:</b> " . $cobro->idCobro);
+            $pdf->Ln(6);
+            $pdf->WriteHTML("<b>Fecha de Cobro:</b> " . date('d/m/Y H:i', strtotime($cobro->fechaCobro)));
+            $pdf->Ln(6);
+            $pdf->WriteHTML("<b>Paciente:</b> " . $cita->nombre_paciente . ' ' . $cita->apellido_paciente);
+            $pdf->Ln(6);
+            $pdf->WriteHTML("<b>Médico:</b> " . $cita->nombre_medico . ' ' . $cita->apellido_medico);
+            $pdf->Ln(6);
+            $pdf->WriteHTML("<b>Fecha de Cita:</b> " . date('d/m/Y H:i', strtotime($cita->fecha)));
+            $pdf->Ln(6);
+            $pdf->WriteHTML("<b>Tipo de Atención:</b> " . $cita->nombreTipoAtencion);
+            $pdf->Ln(6);
+            $pdf->WriteHTML("<b>Monto:</b> Bs. " . number_format($cobro->monto, 2));
+            $pdf->Ln(6);
+            $pdf->WriteHTML("<b>Método de Pago:</b> " . $cobro->metodoPago);
+            $pdf->Ln(6);
+            $pdf->WriteHTML("<b>Número de Comprobante:</b> " . $cobro->numeroComprobante);
+            $pdf->Ln(10);
+    
+            // Línea divisoria
+            $pdf->SetDrawColor(25, 25, 112); // Azul oscuro
+            $pdf->Line(10, $pdf->GetY(), 200, $pdf->GetY());
+            $pdf->Ln(5);
+    
+            // Generar y añadir código QR
+            $qrData = "ID: $cobro->idCobro\nFecha: $cobro->fechaCobro\nMonto: Bs. " . number_format($cobro->monto, 2);
+            $qrParams = array(
+                'data' => $qrData,
+                'level' => 'H',
+                'size' => 5
+            );
+            
+            $qrCodePath = $this->ci_qrcode->generate($qrParams);
+            
+            if (file_exists($qrCodePath)) {
+                $pdf->Image($qrCodePath, 80, 130, 50, 50, 'PNG');
+                unlink($qrCodePath); // Eliminar el archivo temporal del QR
+            }
+            
+            $pdf->Output('comprobante_'.$idCobro.'.pdf', 'I');
+        } catch (Exception $e) {
+            log_message('error', 'Error al generar el PDF: ' . $e->getMessage());
+            show_error('Hubo un problema al generar el comprobante. Por favor, inténtelo de nuevo más tarde.', 500);
+        }
+    }
+    
+    
+    private function generateQRCode($data) {
+        $this->load->library('ciqrcode');
+        $params['data'] = $data;
+        $params['level'] = 'H';
+        $params['size'] = 10;
+        $params['savename'] = FCPATH . 'assets/img/qr_' . time() . '.png';
+        $this->ciqrcode->generate($params);
+        return $params['savename'];
     }
 }
